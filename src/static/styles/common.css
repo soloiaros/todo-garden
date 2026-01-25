@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+div#screen-management {
+  display: flex;
+  padding: 1rem;
+  background-color: rebeccapurple;
+  position: absolute;
+  right: 0;
+  top: 0
+}

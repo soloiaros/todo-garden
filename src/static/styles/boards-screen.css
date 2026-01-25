@@ -1,0 +1,23 @@
+main {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0 4rem;
+  gap: 2rem;
+
+  --trailing-tile-bg: '';
+}
+
+.board-tile {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.board-tile:not(.trailing-tile) {
+  background-image: url('/images/ground-tiles/tile2.png');
+}
+
+.board-tile {
+  background-image: var(--trailing-tile-bg);
+}
