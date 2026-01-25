@@ -1,5 +1,8 @@
 import User from './user.js';
 import { listEntry, TODOItem, ListItem, TODOListItem } from './items.js';
+import './static/styles/common.css';
+
+import createBoardsPageLayout from './boards-page-layout.js';
 
 const LogicController = (() => {
 
@@ -38,6 +41,7 @@ const LogicController = (() => {
       let boardObj = JSON.parse(localStorage.getItem(boardId));
       User.createBoard(boardObj.name, boardObj.description, boardId)
     }
+    return User.boards;
   }
 
   const validateBoardName = (text) => {
@@ -61,6 +65,12 @@ const LogicController = (() => {
 
 })();
 
+
+const ScreenController = (() => {
+
+  createBoardsPageLayout(LogicController);
+
+})();
 
 const newBoard = LogicController.addBoard('board1', 'I contain a list');
 const newlist = ListItem('my list', 'something descriptive', [listEntry('do one thing'), listEntry('do another thing')]);
