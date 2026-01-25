@@ -12,9 +12,9 @@
   "name": "todo-garden",
   "version": "1.0.0",
   "description": "",
-  "main": "webpack.common.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack serve --config webpack.dev.js"
   },
   "repository": {
     "type": "git",

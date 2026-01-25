@@ -11,11 +11,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: './src/template.html' }),
   ],
-  modules: {
+  module: {
     rules: [
       {
         test: /\.html$/i,
-        loader: 'htnl-loader',
+        loader: 'html-loader',
       },
       {
         test: /\.css$/i,
