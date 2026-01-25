@@ -1,4 +1,6 @@
-export default function Board(boardName, boardDescription, boardId = crypto.randomUUID()) {
+export default function Board(boardName, boardDescription, boardId = null) {
+
+  boardId = !!(boardId) ? boardId : crypto.randomUUID();
 
   const items = [];
 

@@ -4,17 +4,17 @@ import Board from './board.js';
 class User {
   constructor(userName) {
     this.userName = userName;
-    this.boards = {};
+    this.boards = [];
   }
 
-  createBoard(boardName, boardDescription) {
-    const boardId = crypto.randomUUID();
+  createBoard(boardName, boardDescription, boardId = null) {
     const newBoard = Board(boardName, boardDescription, boardId);
-    this.boards[boardId] = newBoard;
+    this.boards.unshift(newBoard);
+    return newBoard
   }
 
-  deleteBoard(boardId) {
-    delete this.boards[boardId];
+  deleteBoard(board) {
+    this.boards = this.boards.splice(this.boards.indexOf(board), 1);
   }
 }
 

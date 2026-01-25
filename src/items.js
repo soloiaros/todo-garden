@@ -166,7 +166,9 @@ function checkListEntry(listEntry) {
 
 export const TODOItem = (title, description, dueDate, priority) => {
   return {
-    getStorageObj: () => {title, description, dueDate, priority},
+    getStorageObj: () => {
+      return {title, description, dueDate, priority}
+    },
     ...BoardItem(title, description),
     ...todoFunctionality(dueDate, priority),
   }
@@ -174,7 +176,9 @@ export const TODOItem = (title, description, dueDate, priority) => {
 
 export const ListItem = (title, description, entries) => {
   return {
-    getStorageObj: () => {title, description, entries},
+    getStorageObj: () => {
+      return {title, description, entries}
+    },
     ...BoardItem(title, description),
     ...listFunctionality(entries),
   }
@@ -182,7 +186,9 @@ export const ListItem = (title, description, entries) => {
 
 export const TODOListItem = (title, description, dueDate, priority, entries) => {
   return {
-    getStorageObj: () => {title, description, dueDate, priority, entries},
+    getStorageObj: () => {
+      return {title, description, dueDate, priority, entries}
+    },
     ...BoardItem(title, description),
     ...todoFunctionality(dueDate, priority),
     ...listFunctionality(entries),
