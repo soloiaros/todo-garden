@@ -1,10 +1,13 @@
 main {
+  --trailing-tile-bg: '';
+  --main-bg: rgb(205, 160, 86);
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 0 4rem;
+  padding: 5rem 4rem;
   gap: 2rem;
+  background-color: var(--main-bg);
 
-  --trailing-tile-bg: '';
 }
 
 .board-tile {
@@ -14,10 +17,33 @@ main {
   aspect-ratio: 1 / 1;
 }
 
-.board-tile:not(.trailing-tile) {
-  background-image: url('/images/ground-tiles/tile2.png');
+.board-tile {
+  transition: transform 0.2s ease-in;
+  cursor: pointer;
 }
 
-.board-tile {
+.board-tile:not(.trailing-tile) {
+  background-image: url('/images/house-tiles/house-small-1.png');
+}
+
+.board-tile.trailing-tile {
   background-image: var(--trailing-tile-bg);
+  position: relative;
+}
+
+.board-tile:hover {
+  transform: scale(1.05)
+}
+
+.board-tile.trailing-tile:hover::after {
+  content: '';
+  position: absolute;
+  background: url('/images/icons/plus-sign.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  top: 3%;
+  left: 6%;
+  width: 88%;
+  aspect-ratio: 1 / 1;
+  mix-blend-mode:color-dodge;
 }

@@ -7,9 +7,13 @@ body {
 
 div#screen-management {
   display: flex;
+  gap: 1rem;
   padding: 1rem;
-  background-color: rebeccapurple;
-  position: absolute;
-  right: 0;
-  top: 0
+  background-color: rgb(55, 38, 0);
+  color: white;
+  position: fixed;
+  left: 4rem;
+  top: 0;
+  z-index: 1;
+  border-radius: 0 0 16px 16px
 }
