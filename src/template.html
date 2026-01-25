@@ -6,14 +6,19 @@
   <title>TODO Graden</title>
 </head>
 <body>
-  <header>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#my-projects">My Projects</a></li>
-      <li><a href="#help">Help</a></li>
-    </ul>
-  </header>
+  <div id="screen-management">
+    <button>Hide</button>
+    <label for="sorting">Sort by: 
+      <select name="sort-by" id="sorting">
+        <option value="by-date-added-incr">Date added ↑</option>
+        <option value="by-date-added-dcr">Date added ↓</option>
+        <option value="by-date-changed-incr">Date changed ↑</option>
+        <option value="by-date-changed-dcr">Date changed ↓</option>
+        <option value="by-name-incr">Name ↑</option>
+        <option value="by-name-dcr">Name ↓</option>
+      </select>
+    </label>
+  </div>
   <main></main>
-  <footer></footer>
 </body>
 </html>
