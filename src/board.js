@@ -1,4 +1,4 @@
-export function Board(boardName, boardDescription, boardId) {
+export default function Board(boardName, boardDescription, boardId = crypto.randomUUID()) {
 
   const items = [];
 
@@ -6,9 +6,13 @@ export function Board(boardName, boardDescription, boardId) {
   
   const getDescription = () => boardDescription;
 
-  const getId = () => boardId;
+  const getBoardId = () => boardId;
 
-  const addItem = (item) => items.push(item);
+  const setName = (newName) => boardName = newName;
+
+  const setDescription = (newDescription) => boardDescription = newDescription;
+
+  const addItem = (item) => items.unshift(item);
 
   const deleteItem = (item) => {
     const itemIndex = items.indexOf(item);
@@ -16,12 +20,27 @@ export function Board(boardName, boardDescription, boardId) {
       items.splice(itemIndex, 1);
     }
   }
+
+  const createStorageObject = () => {
+    const boardObj =  {
+      name: boardName,
+      description: boardDescription,
+      items: []
+    };
+    items.forEach((item) => {
+      boardObj.items.unshift(item.getStorageObj())
+    });
+    return boardObj;
+  }
   
   return {
     getName,
     getDescription,
-    getId,
+    getBoardId,
+    setName,
+    setDescription,
     addItem,
-    deleteItem
+    deleteItem,
+    createStorageObject,
   }
 }
