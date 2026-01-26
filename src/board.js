@@ -7,8 +7,6 @@ export default function Board(boardName, boardDescription, boardId = null, passe
     items = passedItems;
   }
 
-  console.log(items)
-
   const getName = () => boardName;
   
   const getDescription = () => boardDescription;

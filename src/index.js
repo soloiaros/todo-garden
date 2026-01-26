@@ -79,12 +79,16 @@ const LogicController = (() => {
     switch (storageObject['type']) {
       case 'note':
         retrievedItem = retrieveNoteItem(storageObject);
+        break;
       case 'todo':
         retrievedItem = retrieveTODOItem(storageObject);
+        break;
       case 'list':
         retrievedItem = retrieveListItem(storageObject);
+        break;
       case 'todolist':
         retrievedItem = retrieveTODOListItem(storageObject);
+        break;
     }
     return retrievedItem;
   }
@@ -134,3 +138,7 @@ const ScreenController = (() => {
 // const newBoard = LogicController.addBoard('board1', 'I contain a list');
 // const newlist = ListItem('my list', 'something descriptive', [listEntry('do one thing'), listEntry('do another thing')]);
 // LogicController.addBoardItem(newBoard, newlist);
+// const newnote = NoteItem('my note', 'bla bla important');
+// LogicController.addBoardItem(newBoard, newnote);
+// const newtodo = TODOItem('FINISH THE TODO SITE', 'seriously, for a mini project it is taking too long');
+// LogicController.addBoardItem(newBoard, newtodo);
