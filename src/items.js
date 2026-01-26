@@ -111,7 +111,7 @@ const listFunctionality = (entries) => {
   const getAllEntries = () => entries;
   
   const addEntry = (newEntry) => {
-    if (validateListEntry) {
+    if (checkListEntry(newEntry)) {
       entries.unshift(newEntry);
       return true;
     }
@@ -134,13 +134,6 @@ const listFunctionality = (entries) => {
     entry.checked = !entry.checked;
   }
   
-  const validateListEntry = (listEntry) => {
-    if (checkListEntry(listEntry)) {
-      return true;
-    }
-    return false;
-  }
-  
   return {
     getAllEntries,
     addEntry,
@@ -152,16 +145,24 @@ const listFunctionality = (entries) => {
 
 const isEntryFlag = Symbol('ListEntry');
 
-export const listEntry = (contents) => {
+export const listEntry = (contents, checked = false) => {
   return {
     contents,
-    checked: false,
+    checked,
     [isEntryFlag]: true,
   }
 }
 
 function checkListEntry(listEntry) {
   return !!(listEntry && listEntry[isEntryFlag]);
+}
+
+const getListEntriesStorageObject = (entries) => {
+  const convertedEntries = [];
+  entries.forEach((entry) => {
+    convertedEntries.unshift({contents: entry.contents, checked: entry.checked})
+  });
+  return convertedEntries;
 }
 
 export const NoteItem = (title, description) => {
@@ -186,7 +187,7 @@ export const TODOItem = (title, description, dueDate, priority) => {
 export const ListItem = (title, description, entries) => {
   return {
     getItemObject: () => {
-      return {type: 'list', title, description, entries}
+      return {type: 'list', title, description, entries: getListEntriesStorageObject(entries)}
     },
     ...noteFunctionality(title, description),
     ...listFunctionality(entries),
@@ -196,7 +197,7 @@ export const ListItem = (title, description, entries) => {
 export const TODOListItem = (title, description, dueDate, priority, entries) => {
   return {
     getItemObject: () => {
-      return {type: 'todolist', title, description, dueDate, priority, entries}
+      return {type: 'todolist', title, description, dueDate, priority, entries: getListEntriesStorageObject(entries)}
     },
     ...noteFunctionality(title, description),
     ...todoFunctionality(dueDate, priority),

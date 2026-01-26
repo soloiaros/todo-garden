@@ -1,7 +1,9 @@
+import createItemsPageLayout from './items-page-layout.js';
 import './static/styles/boards-screen.css';
 
 export default function(LogicController) {
   const mainSection = document.querySelector('main');
+  mainSection.innerText = '';
 
   const skyDiv = document.createElement('div');
     
@@ -9,6 +11,10 @@ export default function(LogicController) {
   for (let board of allBoards) {
     const boardDiv = document.createElement('div');
     boardDiv.classList.add('board-tile');
+    boardDiv.addEventListener('click', () => {
+      createItemsPageLayout(board);
+    })
+
     mainSection.appendChild(boardDiv);
   }
   const trailingTile = document.createElement('div');

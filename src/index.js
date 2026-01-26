@@ -1,5 +1,5 @@
 import User from './user.js';
-import { listEntry, TODOItem, ListItem, TODOListItem } from './items.js';
+import { listEntry, NoteItem, TODOItem, ListItem, TODOListItem } from './items.js';
 import './static/styles/common.css';
 
 import createBoardsPageLayout from './boards-page-layout.js';
@@ -35,11 +35,70 @@ const LogicController = (() => {
     localStorage.setItem(board.getBoardId(), JSON.stringify(boardObject))
   }
 
+  const retrieveNoteItem = (storageObject) => {
+    return NoteItem(storageObject['title'], storageObject['description']);
+  }
+
+  const retrieveTODOItem = (storageObject) => {
+    return TODOItem(
+          storageObject['title'],
+          storageObject['description'],
+          new Date(storageObject['dueDate']),
+          storageObject['priority'],
+        );
+  }
+
+  const retrieveListItem = (storageObject) => {
+    const entries = [];
+    storageObject.entries.forEach((entry) => {
+      entries.unshift(listEntry(entry.contents, entry.checked));
+    })
+    return ListItem(
+      storageObject['title'],
+      storageObject['description'],
+      entries,
+    )
+  }
+
+  const retrieveTODOListItem = (storageObject) => {
+    const entries = [];
+    storageObject.entries.forEach((entry) => {
+      entries.unshift(listEntry(entry.contents, entry.checked));
+    })
+    return TODOListItem(
+      storageObject['title'],
+      storageObject['description'],
+      new Date(storageObject['dueDate']),
+      storageObject['priority'],
+      entries,
+    )
+  }
+
+  const retrieveItem = (storageObject) => {
+    let retrievedItem = '';
+    switch (storageObject['type']) {
+      case 'note':
+        retrievedItem = retrieveNoteItem(storageObject);
+      case 'todo':
+        retrievedItem = retrieveTODOItem(storageObject);
+      case 'list':
+        retrievedItem = retrieveListItem(storageObject);
+      case 'todolist':
+        retrievedItem = retrieveTODOListItem(storageObject);
+    }
+    return retrievedItem;
+  }
+
   const retrieveBoards = () => {
     for (let i = 0; i < localStorage.length; i++) {
       let boardId = localStorage.key(i);
       let boardObj = JSON.parse(localStorage.getItem(boardId));
-      User.createBoard(boardObj.name, boardObj.description, boardId)
+      const boardsItems = [];
+      for (let item of boardObj['items']) {
+        const retrievedItem = retrieveItem(item);
+        boardsItems.unshift(retrievedItem);
+      }
+      User.createBoard(boardObj.name, boardObj.description, boardId, boardsItems);
     }
     return User.boards;
   }
@@ -72,8 +131,6 @@ const ScreenController = (() => {
 
 })();
 
-const newBoard = LogicController.addBoard('board1', 'I contain a list');
-const newlist = ListItem('my list', 'something descriptive', [listEntry('do one thing'), listEntry('do another thing')]);
-LogicController.addBoardItem(newBoard, newlist);
-
-console.log(localStorage)
+// const newBoard = LogicController.addBoard('board1', 'I contain a list');
+// const newlist = ListItem('my list', 'something descriptive', [listEntry('do one thing'), listEntry('do another thing')]);
+// LogicController.addBoardItem(newBoard, newlist);

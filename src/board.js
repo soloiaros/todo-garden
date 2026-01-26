@@ -1,20 +1,35 @@
-export default function Board(boardName, boardDescription, boardId = null) {
+export default function Board(boardName, boardDescription, boardId = null, passedItems = null) {
 
   boardId = !!(boardId) ? boardId : crypto.randomUUID();
 
-  const items = [];
+  let items = [];
+  if (!!(passedItems)) {
+    items = passedItems;
+  }
+
+  console.log(items)
 
   const getName = () => boardName;
   
   const getDescription = () => boardDescription;
 
+  const getItems = () => {
+    return items;
+  };
+
   const getBoardId = () => boardId;
 
-  const setName = (newName) => boardName = newName;
+  const setName = (newName) => {
+    boardName = newName;
+  }
 
-  const setDescription = (newDescription) => boardDescription = newDescription;
+  const setDescription = (newDescription) => {
+    boardDescription = newDescription;
+  }
 
-  const addItem = (item) => items.unshift(item);
+  const addItem = (item) => {
+    items.unshift(item);
+  }
 
   const deleteItem = (item) => {
     const itemIndex = items.indexOf(item);
@@ -30,7 +45,7 @@ export default function Board(boardName, boardDescription, boardId = null) {
       items: []
     };
     items.forEach((item) => {
-      boardObj.items.unshift(item.getStorageObj())
+      boardObj.items.unshift(item.getItemObject())
     });
     return boardObj;
   }
@@ -39,6 +54,7 @@ export default function Board(boardName, boardDescription, boardId = null) {
     getName,
     getDescription,
     getBoardId,
+    getItems,
     setName,
     setDescription,
     addItem,
