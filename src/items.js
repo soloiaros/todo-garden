@@ -1,4 +1,4 @@
-const BoardItem = (title, description) => {
+const noteFunctionality = (title, description) => {
 
   const getTitle = () => title;
   
@@ -164,32 +164,41 @@ function checkListEntry(listEntry) {
   return !!(listEntry && listEntry[isEntryFlag]);
 }
 
+export const NoteItem = (title, description) => {
+  return {
+    getItemObject: () => {
+      return {type: 'note', title, description};
+    },
+    ...noteFunctionality,
+  }
+}
+
 export const TODOItem = (title, description, dueDate, priority) => {
   return {
-    getStorageObj: () => {
-      return {title, description, dueDate, priority}
+    getItemObject: () => {
+      return {type: 'todo', title, description, dueDate, priority}
     },
-    ...BoardItem(title, description),
+    ...noteFunctionality(title, description),
     ...todoFunctionality(dueDate, priority),
   }
 }
 
 export const ListItem = (title, description, entries) => {
   return {
-    getStorageObj: () => {
-      return {title, description, entries}
+    getItemObject: () => {
+      return {type: 'list', title, description, entries}
     },
-    ...BoardItem(title, description),
+    ...noteFunctionality(title, description),
     ...listFunctionality(entries),
   }
 }
 
 export const TODOListItem = (title, description, dueDate, priority, entries) => {
   return {
-    getStorageObj: () => {
-      return {title, description, dueDate, priority, entries}
+    getItemObject: () => {
+      return {type: 'todolist', title, description, dueDate, priority, entries}
     },
-    ...BoardItem(title, description),
+    ...noteFunctionality(title, description),
     ...todoFunctionality(dueDate, priority),
     ...listFunctionality(entries),
   }
