@@ -1,3 +1,4 @@
+import { compareAsc, format, formatDistance } from 'date-fns';
 import './static/styles/items-screen.css';
 
 export default function(board) {
@@ -14,17 +15,33 @@ export default function(board) {
   itemsContainer.classList.add('items-container');
 
   for (let item of board.getItems()) {
-    console.log(board.getItems())
     const itemDiv = document.createElement('div');
     itemDiv.classList.add('item');
+
+    const itemDivInfoContainer = document.createElement('div');
+    itemDivInfoContainer.classList.add('item-contents');
     const allItemFields = item.getItemObject();
     itemDiv.classList.add(allItemFields.type);
     for (let key in allItemFields) {
-      const itemInfoField = document.createElement('span');
-      itemInfoField.textContent = allItemFields[key];
-      itemInfoField.classList.add(key);
-      itemDiv.appendChild(itemInfoField);
+      if (key !== 'type') {
+        const itemInfoField = document.createElement('span');
+        if (key === 'dueDate') {
+          itemInfoField.innerText = format(new Date(allItemFields[key]), "'Deadline is on ' MMM do, hh:mmaaa");
+          itemInfoField.innerHTML += '<span>';
+          itemInfoField.innerText += formatDistance(new Date(allItemFields[key]), new Date(), {addSuffix: true});
+          itemInfoField.innerHTML += '</span>';
+        } else {
+          itemInfoField.textContent = allItemFields[key];
+        }
+        itemInfoField.classList.add(key);
+        itemDivInfoContainer.appendChild(itemInfoField);
+      }
     }
+
+    const decorativeDiv = document.createElement('div');
+    decorativeDiv.classList.add('decorative-div');
+    itemDiv.appendChild(decorativeDiv);
+    itemDiv.appendChild(itemDivInfoContainer);
 
     // animation-related event listeners
     itemDiv.addEventListener('mouseenter', () => {

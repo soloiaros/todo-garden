@@ -43,7 +43,7 @@ const LogicController = (() => {
     return TODOItem(
           storageObject['title'],
           storageObject['description'],
-          new Date(storageObject['dueDate']),
+          Date.parse(storageObject['dueDate']),
           storageObject['priority'],
         );
   }
@@ -140,5 +140,5 @@ const ScreenController = (() => {
 // LogicController.addBoardItem(newBoard, newlist);
 // const newnote = NoteItem('my note', 'bla bla important');
 // LogicController.addBoardItem(newBoard, newnote);
-// const newtodo = TODOItem('FINISH THE TODO SITE', 'seriously, for a mini project it is taking too long');
+// const newtodo = TODOItem('FINISH THE TODO SITE', 'seriously, for a mini project it is taking too long', new Date('2026-01-27'), 'important');
 // LogicController.addBoardItem(newBoard, newtodo);
