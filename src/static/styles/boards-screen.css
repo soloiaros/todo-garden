@@ -1,4 +1,4 @@
-main {
+main#boards {
   --trailing-tile-bg: '';
   --main-bg: rgb(205, 160, 86);
 
@@ -7,7 +7,6 @@ main {
   padding: 5rem 4rem;
   gap: 2rem;
   background-color: var(--main-bg);
-
 }
 
 .board-tile {
@@ -15,11 +14,10 @@ main {
   background-size: contain;
   width: 100%;
   aspect-ratio: 1 / 1;
-}
-
-.board-tile {
-  transition: transform 0.2s ease-in;
+  transition: all 0.1s ease-in;
   cursor: pointer;
+  position: relative;
+  filter: drop-shadow(5px 5px 5px #222);
 }
 
 .board-tile:not(.trailing-tile) {
@@ -32,7 +30,8 @@ main {
 }
 
 .board-tile:hover {
-  transform: scale(1.05)
+  transform: scale(1.01);
+  filter: drop-shadow(7px 7px 10px #222);
 }
 
 .board-tile.trailing-tile:hover::after {

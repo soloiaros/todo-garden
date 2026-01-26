@@ -3,6 +3,7 @@ import './static/styles/boards-screen.css';
 
 export default function(LogicController) {
   const mainSection = document.querySelector('main');
+  mainSection.id = 'boards';
   mainSection.innerText = '';
 
   const skyDiv = document.createElement('div');
