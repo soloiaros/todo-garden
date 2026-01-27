@@ -1,7 +1,7 @@
 import createModal from './item-interaction-modal.js';
 import './static/styles/items-screen.css';
 
-export default function(board) {
+export default function renderBoardScreen(board) {
   const mainSection = document.querySelector('main');
   mainSection.id = 'items';
   mainSection.innerText = '';
@@ -57,6 +57,16 @@ export default function(board) {
       const itemDialog = createModal(item);
       mainSection.appendChild(itemDialog);
       itemDialog.showModal();
+      itemDialog.addEventListener(
+        'close',
+        () => {
+          if (itemDialog.returnValue) {
+            const submittedValue = JSON.parse(itemDialog.returnValue);
+            item.updateSelf(submittedValue);
+            renderBoardScreen(board);
+          }
+        }
+      )
     })
 
     itemsContainer.appendChild(itemDiv);

@@ -122,13 +122,5 @@ export default function(item) {
   dialogForm.appendChild(deleteButton);
   itemDialog.appendChild(dialogForm);
 
-  itemDialog.addEventListener(
-    'close',
-    () => {
-      const submittedValue = JSON.parse(itemDialog.returnValue);
-      item.updateSelf(submittedValue);
-    }
-  )
-
   return itemDialog;
 }
