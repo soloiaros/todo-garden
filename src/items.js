@@ -14,6 +14,25 @@ const updateSelfFunctionality = (itemInstance, updates) => {
       itemInstance[setterName](updates[updateKey]);
     }
   }
+  itemInstance.notify();
+}
+
+const observerFunctionality = () => {
+  const observers = [];
+
+  const subscribe = (func) => {
+    observers.push(func);
+  }
+
+  const notify = () => {
+    console.log("Notifying observers:", observers.length);
+    observers.forEach(func => func())
+  }
+
+  return {
+    subscribe,
+    notify,
+  }
 }
 
 const noteFunctionality = (title, description) => {
@@ -67,7 +86,7 @@ const noteFunctionality = (title, description) => {
 
 const todoFunctionality = (dueDate, priorityLevel) => {
 
-  const getDueDate = () => dueDate;
+  const getDueDate = () => new Date(dueDate);
 
   const getDueDateReadable = () => {
     return format(dueDate, "MMM do, hh:mmaaa");
@@ -80,11 +99,8 @@ const todoFunctionality = (dueDate, priorityLevel) => {
   const getPriorityLevel = () => priorityLevel;
 
   const setDueDate = (newDueDate) => {
-    if (validateDate(newDueDate)) {
-      dueDate = newDueDate;
-      return true;
-    }
-    return false;
+    dueDate = new Date(newDueDate);
+    console.log(dueDate)
   }
 
   const setPriorityLevel = (newPriorityLevel) => {
@@ -96,13 +112,6 @@ const todoFunctionality = (dueDate, priorityLevel) => {
     const currentDate = new Date();
     const timeDiff = date.getTime() - currentDate.gettime();
     return (timeDiff < 0) ? true : false;
-  }
-
-  const validateDate = (newDueDate) => {
-    if (newDueDate && Object.prototype.toString.call(newDueDate) === '[object Date]' && !isNaN(date)) {
-      return (checkDateInPast(newDueDate)) ? false : true;
-    }
-    return false;
   }
 
   return {
@@ -144,6 +153,14 @@ const listFunctionality = (entries) => {
     }
     entries = newEntriesList;
   }
+
+  const getListEntriesStorageObject = () => {
+    const convertedEntries = [];
+    entries.forEach((entry) => {
+      convertedEntries.unshift({contents: entry.contents, checked: entry.checked})
+    });
+    return convertedEntries;
+  }
   
   const getEntryCheckedState = (entry) => {
     return !!(entry.checked);
@@ -159,6 +176,8 @@ const listFunctionality = (entries) => {
     removeEntry,
     getEntryCheckedState,
     tickEntry,
+    setEntries,
+    getListEntriesStorageObject,
   }
 }
 
@@ -176,57 +195,85 @@ function checkListEntry(listEntry) {
   return !!(listEntry && listEntry[isEntryFlag]);
 }
 
-const getListEntriesStorageObject = (entries) => {
-  const convertedEntries = [];
-  entries.forEach((entry) => {
-    convertedEntries.unshift({contents: entry.contents, checked: entry.checked})
-  });
-  return convertedEntries;
-}
-
 export const NoteItem = (title, description) => {
+
+  const note = noteFunctionality(title, description);
+
   const itemObject = {
+    ...note,
+    ...observerFunctionality(),
     getItemObject: () => {
-      return {type: 'note', title, description};
+      return {
+        type: 'note',
+        title: note.getTitle(),
+        description: note.getDescription()
+      };
     },
-    ...noteFunctionality(title, description),
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
   return itemObject;
 }
 
 export const TODOItem = (title, description, dueDate, priority) => {
+  const note = noteFunctionality(title, description);
+  const todo = todoFunctionality(dueDate, priority);
   const itemObject = {
+    ...note,
+    ...todo,
+    ...observerFunctionality(),
     getItemObject: () => {
-      return {type: 'todo', title, description, dueDate, priority}
+      return {
+        type: 'todo',
+        title: note.getTitle(),
+        description: note.getDescription(),
+        dueDate: todo.getDueDate(),
+        priority: todo.getPriorityLevel(),
+      }
     },
-    ...noteFunctionality(title, description),
-    ...todoFunctionality(dueDate, priority),
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
   return itemObject;
 }
 
 export const ListItem = (title, description, entries) => {
+  const note = noteFunctionality(title, description);
+  const list = listFunctionality(entries);
   const itemObject = {
+    ...note,
+    ...list,
+    ...observerFunctionality(),
     getItemObject: () => {
-      return {type: 'list', title, description, entries: getListEntriesStorageObject(entries)}
+      return {
+        type: 'list',
+        title: note.getTitle(),
+        description: note.getDescription(),
+        entries: list.getListEntriesStorageObject(),
+      }
     },
-    ...noteFunctionality(title, description),
-    ...listFunctionality(entries),
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
   return itemObject;
 }
 
 export const TODOListItem = (title, description, dueDate, priority, entries) => {
+  const note = noteFunctionality(title, description);
+  const list = listFunctionality(entries);
+  const todo = todoFunctionality(dueDate, priority);
   const itemObject = {
+    ...note,
+    ...list,
+    ...todo,
+    ...observerFunctionality(),
     getItemObject: () => {
-      return {type: 'todolist', title, description, dueDate, priority, entries: getListEntriesStorageObject(entries)}
+      return {
+        type: 'list',
+        title: note.getTitle(),
+        description: note.getDescription(),
+        dueDate: todo.getDueDate(),
+        priority: todo.getPriorityLevel(),
+        entries: list.getListEntriesStorageObject(),
+      }
     },
-    ...noteFunctionality(title, description),
-    ...todoFunctionality(dueDate, priority),
-    ...listFunctionality(entries),
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
   return itemObject;

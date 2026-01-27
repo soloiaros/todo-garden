@@ -1,11 +1,8 @@
-export default function Board(boardName, boardDescription, boardId = null, passedItems = null) {
+export default function Board(boardName, boardDescription, boardId = null) {
 
   boardId = !!(boardId) ? boardId : crypto.randomUUID();
 
-  let items = [];
-  if (!!(passedItems)) {
-    items = passedItems;
-  }
+  const items = [];
 
   const getName = () => boardName;
   
@@ -27,6 +24,7 @@ export default function Board(boardName, boardDescription, boardId = null, passe
 
   const addItem = (item) => {
     items.unshift(item);
+    item.subscribe(setLocalStorageBoardObject);
   }
 
   const deleteItem = (item) => {
@@ -62,7 +60,6 @@ export default function Board(boardName, boardDescription, boardId = null, passe
     setDescription,
     addItem,
     deleteItem,
-    createStorageObject,
     setLocalStorageBoardObject,
   }
 }
