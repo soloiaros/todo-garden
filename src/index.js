@@ -9,7 +9,7 @@ const LogicController = (() => {
   const addBoard = (name, description) => {
     if (validateBoardName(name) && validateBoardDescription(description)) {
       const newBoard = User.createBoard(name, description);
-      setLocalStorageBoardObject(newBoard);
+      newBoard.setLocalStorageBoardObject();
       return newBoard;
     }
     return false;
@@ -22,17 +22,12 @@ const LogicController = (() => {
 
   const addBoardItem = (board, item) => {
     board.addItem(item);
-    setLocalStorageBoardObject(board);
+    board.setLocalStorageBoardObject();
   }
 
   const removeBoardItem = (board, item) => {
     board.deleteItem(item);
-    setLocalStorageBoardObject(board);
-  }
-
-  const setLocalStorageBoardObject = (board) => {
-    const boardObject = board.createStorageObject();
-    localStorage.setItem(board.getBoardId(), JSON.stringify(boardObject))
+    board.setLocalStorageBoardObject();
   }
 
   const retrieveNoteItem = (storageObject) => {

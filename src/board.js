@@ -47,6 +47,11 @@ export default function Board(boardName, boardDescription, boardId = null, passe
     });
     return boardObj;
   }
+
+  const setLocalStorageBoardObject = () => {
+    const boardObject = createStorageObject();
+    localStorage.setItem(boardId, JSON.stringify(boardObject))
+  }
   
   return {
     getName,
@@ -58,5 +63,6 @@ export default function Board(boardName, boardDescription, boardId = null, passe
     addItem,
     deleteItem,
     createStorageObject,
+    setLocalStorageBoardObject,
   }
 }
