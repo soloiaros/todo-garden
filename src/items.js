@@ -1,4 +1,4 @@
-import { compareAsc, format, formatDistance } from 'date-fns';
+import { format, formatDistance } from 'date-fns';
 
 const noteFunctionality = (title, description) => {
 
@@ -54,7 +54,7 @@ const todoFunctionality = (dueDate, priorityLevel) => {
   const getDueDate = () => dueDate;
 
   const getDueDateReadable = () => {
-    return format(dueDate, "'Deadline is on ' MMM do, hh:mmaaa");
+    return format(dueDate, "MMM do, hh:mmaaa");
   }
 
   const getTimeToDueDate = () => {

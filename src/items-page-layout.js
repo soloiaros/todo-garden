@@ -1,4 +1,4 @@
-import { compareAsc, format, formatDistance } from 'date-fns';
+import createModal from './item-interaction-modal.js';
 import './static/styles/items-screen.css';
 
 export default function(board) {
@@ -26,7 +26,7 @@ export default function(board) {
       if (key !== 'type') {
         const itemInfoField = document.createElement('span');
         if (key === 'dueDate') {
-          itemInfoField.innerText = item.getDueDateReadable();
+          itemInfoField.innerText = 'Deadline is on ' + item.getDueDateReadable();
           itemInfoField.innerHTML += '<span>';
           itemInfoField.innerText += item.getTimeToDueDate();
           itemInfoField.innerHTML += '</span>';
@@ -48,9 +48,15 @@ export default function(board) {
       if (!itemDiv.classList.contains('item-hovered')) {
         itemDiv.classList.add('item-hovered');
       }
-    })
+    });
     itemDiv.addEventListener('animationend', () => {
       itemDiv.classList.remove('item-hovered');
+    });
+
+    itemDiv.addEventListener('click', () => {
+      const itemDialog = createModal(item);
+      mainSection.appendChild(itemDialog);
+      itemDialog.showModal();
     })
 
     itemsContainer.appendChild(itemDiv);
