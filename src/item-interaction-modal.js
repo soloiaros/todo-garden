@@ -69,6 +69,7 @@ export default function(item) {
         const entryCheckbox = document.createElement('input');
         entryCheckbox.type = 'checkbox';
         entryCheckbox.id = `entry-${i}`;
+        entryCheckbox.checked =  itemStorageObject.entries[i].checked;
         entryContainer.appendChild(entryCheckbox);
         entryContainer.appendChild(entryLabel)
         field.appendChild(entryContainer);

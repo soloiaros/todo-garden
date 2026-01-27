@@ -30,6 +30,13 @@ export default function renderBoardScreen(board) {
           itemInfoField.innerHTML += '<span>';
           itemInfoField.innerText += item.getTimeToDueDate();
           itemInfoField.innerHTML += '</span>';
+        } else if (key === 'entries') {
+          for (let entry of allItemFields[key]) {
+            const entryPara = document.createElement('p');
+            entryPara.textContent = entry.checked ? '☑️ ' : '⏺ ';
+            entryPara.textContent += entry.contents;
+            itemInfoField.appendChild(entryPara);
+          }
         } else {
           itemInfoField.textContent = allItemFields[key];
         }

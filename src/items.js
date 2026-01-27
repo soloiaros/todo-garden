@@ -25,7 +25,6 @@ const observerFunctionality = () => {
   }
 
   const notify = () => {
-    console.log("Notifying observers:", observers.length);
     observers.forEach(func => func())
   }
 
@@ -100,7 +99,6 @@ const todoFunctionality = (dueDate, priorityLevel) => {
 
   const setDueDate = (newDueDate) => {
     dueDate = new Date(newDueDate);
-    console.log(dueDate)
   }
 
   const setPriorityLevel = (newPriorityLevel) => {
@@ -148,6 +146,7 @@ const listFunctionality = (entries) => {
   const setEntries = (inputEntries) => {
     const newEntriesList = [];
     for (let newEntry of inputEntries) {
+      console.log(newEntry.contents, newEntry.state)
       const newEntryObject = listEntry(newEntry.contents, newEntry.state);
       newEntriesList.unshift(newEntryObject);
     }
