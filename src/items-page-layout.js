@@ -61,7 +61,7 @@ export default function renderBoardScreen(board) {
     });
 
     itemDiv.addEventListener('click', () => {
-      const itemDialog = createModal(item);
+      const itemDialog = createModal(board, item);
       mainSection.appendChild(itemDialog);
       itemDialog.showModal();
       itemDialog.addEventListener(
@@ -70,8 +70,8 @@ export default function renderBoardScreen(board) {
           if (itemDialog.returnValue) {
             const submittedValue = JSON.parse(itemDialog.returnValue);
             item.updateSelf(submittedValue);
-            renderBoardScreen(board);
           }
+          renderBoardScreen(board);
         }
       )
     })

@@ -8,7 +8,7 @@ const keysToLabels = {
   'priority': 'Priority',
 }
 
-export default function(item) {
+export default function(board, item) {
   const itemStorageObject = item.getItemObject();
   const itemDialog = document.createElement('dialog');
   itemDialog.id = 'item-dialog';
@@ -120,7 +120,14 @@ export default function(item) {
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
   deleteButton.type = 'button';
+  deleteButton.addEventListener('click', () => {
+    if (confirm("Are you sure we're deleting this one?")) {
+      board.deleteItem(item);
+      itemDialog.close();
+    }
+  })
   dialogForm.appendChild(deleteButton);
+
   itemDialog.appendChild(dialogForm);
 
   return itemDialog;

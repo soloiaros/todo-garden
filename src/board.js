@@ -2,7 +2,7 @@ export default function Board(boardName, boardDescription, boardId = null) {
 
   boardId = !!(boardId) ? boardId : crypto.randomUUID();
 
-  const items = [];
+  let items = [];
 
   const getName = () => boardName;
   
@@ -31,6 +31,7 @@ export default function Board(boardName, boardDescription, boardId = null) {
     const itemIndex = items.indexOf(item);
     if (itemIndex > -1) {
       items.splice(itemIndex, 1);
+      setLocalStorageBoardObject();
     }
   }
 
