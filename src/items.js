@@ -1,5 +1,21 @@
 import { format, formatDistance } from 'date-fns';
 
+const updateSelfFunctionality = (itemInstance, updates) => {
+  const updatePropertiesMap = {
+    'title': 'setTitle',
+    'description': 'setDescription',
+    'dueDate': 'setDueDate',
+    'priority': 'setPriorityLevel',
+    'entries': 'setEntries',
+  };
+  for (let updateKey in updates) {
+    const setterName = updatePropertiesMap[updateKey];
+    if (itemInstance[setterName] && typeof itemInstance[setterName] === 'function') {
+      itemInstance[setterName](updates[updateKey]);
+    }
+  }
+}
+
 const noteFunctionality = (title, description) => {
 
   const getTitle = () => title;
@@ -71,12 +87,9 @@ const todoFunctionality = (dueDate, priorityLevel) => {
     return false;
   }
 
-  const setPriorityLevel = (userPriorityLevels, newPriorityLevel) => {
-    if (validatePriorityLevel(userPriorityLevels, newPriorityLevel)) {
-      priorityLevel = newPriority;
-      return true;
-    }
-    return false;
+  const setPriorityLevel = (newPriorityLevel) => {
+    priorityLevel = newPriorityLevel;
+    return true;
   }
 
   const checkDateInPast = (date) => {
@@ -90,10 +103,6 @@ const todoFunctionality = (dueDate, priorityLevel) => {
       return (checkDateInPast(newDueDate)) ? false : true;
     }
     return false;
-  }
-
-  const validatePriorityLevel = (prioritiesList, newPriority) => {
-    return (prioritiesList.contains(newPriority)) ? true: false;
   }
 
   return {
@@ -125,6 +134,15 @@ const listFunctionality = (entries) => {
       return true;
     }
     return false;
+  }
+
+  const setEntries = (inputEntries) => {
+    const newEntriesList = [];
+    for (let newEntry of inputEntries) {
+      const newEntryObject = listEntry(newEntry.contents, newEntry.state);
+      newEntriesList.unshift(newEntryObject);
+    }
+    entries = newEntriesList;
   }
   
   const getEntryCheckedState = (entry) => {
@@ -167,41 +185,49 @@ const getListEntriesStorageObject = (entries) => {
 }
 
 export const NoteItem = (title, description) => {
-  return {
+  const itemObject = {
     getItemObject: () => {
       return {type: 'note', title, description};
     },
-    ...noteFunctionality,
+    ...noteFunctionality(title, description),
+    updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
+  return itemObject;
 }
 
 export const TODOItem = (title, description, dueDate, priority) => {
-  return {
+  const itemObject = {
     getItemObject: () => {
       return {type: 'todo', title, description, dueDate, priority}
     },
     ...noteFunctionality(title, description),
     ...todoFunctionality(dueDate, priority),
+    updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
+  return itemObject;
 }
 
 export const ListItem = (title, description, entries) => {
-  return {
+  const itemObject = {
     getItemObject: () => {
       return {type: 'list', title, description, entries: getListEntriesStorageObject(entries)}
     },
     ...noteFunctionality(title, description),
     ...listFunctionality(entries),
+    updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
+  return itemObject;
 }
 
 export const TODOListItem = (title, description, dueDate, priority, entries) => {
-  return {
+  const itemObject = {
     getItemObject: () => {
       return {type: 'todolist', title, description, dueDate, priority, entries: getListEntriesStorageObject(entries)}
     },
     ...noteFunctionality(title, description),
     ...todoFunctionality(dueDate, priority),
     ...listFunctionality(entries),
+    updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
   }
+  return itemObject;
 }
