@@ -1,3 +1,5 @@
+import { compareAsc, format, formatDistance } from 'date-fns';
+
 const noteFunctionality = (title, description) => {
 
   const getTitle = () => title;
@@ -51,6 +53,14 @@ const todoFunctionality = (dueDate, priorityLevel) => {
 
   const getDueDate = () => dueDate;
 
+  const getDueDateReadable = () => {
+    return format(dueDate, "'Deadline is on ' MMM do, hh:mmaaa");
+  }
+
+  const getTimeToDueDate = () => {
+    return formatDistance(dueDate, new Date(), {addSuffix: true});
+  }
+
   const getPriorityLevel = () => priorityLevel;
 
   const setDueDate = (newDueDate) => {
@@ -86,22 +96,13 @@ const todoFunctionality = (dueDate, priorityLevel) => {
     return (prioritiesList.contains(newPriority)) ? true: false;
   }
 
-  const getDeadlineProximity = () => {
-    if (checkDateInPast(dueDate)) 'expired';
-    const urgentTimeSpan = 24 * 60 * 60 * 1000; // number of ms in one day
-    if (timeDiff < urgentTimeSpan) {
-      return 'close';
-    } else {
-      return 'fine';
-    }
-  }
-
   return {
     getDueDate,
+    getTimeToDueDate,
+    getDueDateReadable,
     getPriorityLevel,
     setDueDate,
     setPriorityLevel,
-    getDeadlineProximity,
   }
 }
 

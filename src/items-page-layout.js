@@ -26,9 +26,9 @@ export default function(board) {
       if (key !== 'type') {
         const itemInfoField = document.createElement('span');
         if (key === 'dueDate') {
-          itemInfoField.innerText = format(new Date(allItemFields[key]), "'Deadline is on ' MMM do, hh:mmaaa");
+          itemInfoField.innerText = item.getDueDateReadable();
           itemInfoField.innerHTML += '<span>';
-          itemInfoField.innerText += formatDistance(new Date(allItemFields[key]), new Date(), {addSuffix: true});
+          itemInfoField.innerText += item.getTimeToDueDate();
           itemInfoField.innerHTML += '</span>';
         } else {
           itemInfoField.textContent = allItemFields[key];
