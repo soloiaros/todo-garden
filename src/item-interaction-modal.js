@@ -120,8 +120,8 @@ export default function (board, item, itemDiv) {
         fieldValue = [];
         for (let entry of field.getElementsByClassName('entry-container')) {
           const entryContents = entry.getElementsByTagName('label')[0].textContent;
-          const entryState = entry.getElementsByTagName('input')[0].checked;
-          fieldValue.unshift({ contents: entryContents, state: entryState });
+          const entryState = entry.getElementsByTagName('input')[1].checked;
+          fieldValue.unshift({ contents: entryContents, checked: entryState });
         }
       } else if (field.getAttribute('data-field-type') === 'priority') {
         fieldKey = field.getElementsByTagName('label')[0].getAttribute('data-storage-key');

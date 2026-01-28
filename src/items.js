@@ -132,7 +132,7 @@ const listFunctionality = (entries) => {
   const setEntries = (inputEntries) => {
     const newEntriesList = [];
     for (let newEntry of inputEntries) {
-      const newEntryObject = listEntry(newEntry.contents, newEntry.state);
+      const newEntryObject = listEntry(newEntry.contents, newEntry.checked);
       newEntriesList.unshift(newEntryObject);
     }
     entries = newEntriesList;
