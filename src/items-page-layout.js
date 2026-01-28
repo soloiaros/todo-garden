@@ -61,8 +61,8 @@ export default function renderBoardScreen(board) {
       itemDiv.classList.remove('item-hovered');
     });
 
-    itemDiv.addEventListener('click', () => {
-      const itemDialog = createModal(board, item);
+    const renderItemDialog = () => {
+      const itemDialog = createModal(board, item, itemDiv);
       mainSection.appendChild(itemDialog);
       itemDialog.showModal();
       itemDialog.addEventListener(
@@ -75,6 +75,15 @@ export default function renderBoardScreen(board) {
           renderBoardScreen(board);
         }
       )
+    }
+
+    itemDiv.addEventListener('click', () => {
+      renderItemDialog();
+    })
+
+    itemDiv.addEventListener('newlistentry', () => {
+      console.log('new entry added')
+      renderItemDialog();
     })
 
     itemsContainer.appendChild(itemDiv);

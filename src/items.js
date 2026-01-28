@@ -58,7 +58,6 @@ const noteFunctionality = (title, description) => {
 
 
 const todoFunctionality = (dueDate, priorityLevel) => {
-  console.log(dueDate, new Date(dueDate))
 
   const getDueDate = () => new Date(dueDate);
 
@@ -133,7 +132,6 @@ const listFunctionality = (entries) => {
   const setEntries = (inputEntries) => {
     const newEntriesList = [];
     for (let newEntry of inputEntries) {
-      console.log(newEntry.contents, newEntry.state)
       const newEntryObject = listEntry(newEntry.contents, newEntry.state);
       newEntriesList.unshift(newEntryObject);
     }

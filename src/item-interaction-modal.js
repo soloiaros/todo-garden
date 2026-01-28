@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { listEntryPopover } from './popovers';
 
 const priorityOptions = ['important', 'casual', 'unimportant'];
 const keysToLabels = {
@@ -8,7 +9,7 @@ const keysToLabels = {
   'priority': 'Priority',
 }
 
-export default function(board, item) {
+export default function (board, item, itemDiv) {
   const itemStorageObject = item.getItemObject();
   const itemDialog = document.createElement('dialog');
   itemDialog.id = 'item-dialog';
@@ -60,6 +61,19 @@ export default function(board, item) {
       field.appendChild(fieldInput);
       }
     } else if (fieldKey === 'entries') {
+      const entryHeader = document.createElement('h4');
+      entryHeader.textContent = itemStorageObject.entries.length ? 'Current tasks' : 'No tasks yet';
+      field.appendChild(entryHeader);
+
+      // create popover for adding tasks
+      const popoverNewEntry = listEntryPopover(item, itemDiv);
+      itemDialog.appendChild(popoverNewEntry);
+      const addEntryBtn = document.createElement('button');
+      addEntryBtn.textContent = '+';
+      addEntryBtn.setAttribute('popovertarget', popoverNewEntry.id);
+      addEntryBtn.setAttribute('aria-label', 'add new entry to the list');
+      addEntryBtn.type = 'button';
+      field.appendChild(addEntryBtn);
       for (let i = 0; i < itemStorageObject.entries.length; i++) {
         const entryContainer = document.createElement('div');
         entryContainer.classList.add('entry-container');

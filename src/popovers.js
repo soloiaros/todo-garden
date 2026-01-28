@@ -31,3 +31,36 @@ export const createNewItemPopover = (board, eventFireLocation) => {
   }
   return popoverCreate;
 }
+
+export const listEntryPopover = (listItem, eventFireLocation, inputEntry = null) => {
+  const popoverCreate = document.createElement('div');
+  popoverCreate.id = 'popover-create-entry';
+  popoverCreate.setAttribute('popover', '');
+
+  const entryAdded = new CustomEvent('newlistentry');
+
+  const popoverHeader = document.createElement('h4');
+  popoverHeader.textContent = "Let's add new entry!";
+  const popoverContents = document.createElement('input');
+  popoverContents.type = 'text';
+  popoverContents.value = inputEntry ? inputEntry.contents : '';
+  const popoverSubmit = document.createElement('button');
+  popoverSubmit.textContent = 'Add';
+  popoverSubmit.setAttribute('popovertargetaction', 'hide');
+  popoverSubmit.addEventListener('click', (event) => {
+    event.preventDefault();
+    const checkedState = inputEntry ? inputEntry.checked : false;
+    if (!!(inputEntry)) {
+      listItem.removeEntry(inputEntry);
+    }
+    const newEntry = listEntry(popoverContents.value, checkedState);
+    listItem.addEntry(newEntry);
+    eventFireLocation.dispatchEvent(entryAdded);
+  })
+
+  popoverCreate.appendChild(popoverHeader);
+  popoverCreate.appendChild(popoverContents);
+  popoverCreate.appendChild(popoverSubmit);
+
+  return popoverCreate;
+}
