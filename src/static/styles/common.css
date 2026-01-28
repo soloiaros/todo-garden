@@ -3,6 +3,12 @@ body {
   padding: 0;
   box-sizing: border-box;
   position: relative;
+
+  --items-container-bg: #5d4037;
+  --board-name-bg: #5d4037;
+  --items-container-border: 20px solid #3e2723;
+  --item-bg: #fdf5e6;
+  --main-bg: #696f6f;
 }
 
 div#screen-management {

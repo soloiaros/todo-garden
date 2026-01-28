@@ -1,9 +1,4 @@
 main#items {
-  --item-container-bg: #5d4037;
-  --item-container-border: 20px solid #3e2723;
-  --item-bg: #d0ca92;
-  --main-bg: #696f6f;
-  
   display: flex;
   flex-direction: column;
   padding: 5rem 4rem;
@@ -31,10 +26,10 @@ main#items::before {
 }
 
 .items-container {
-  background-color: var(--item-container-bg);
+  background-color: var(--items-container-bg);
   background-image:
     repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.1) 40px, rgba(0,0,0,0.1) 42px);
-  border: var(--item-container-border);
+  border: var(--items-container-border);
   border-radius: 4px;
   padding: 3rem;
   box-shadow: 
@@ -72,7 +67,7 @@ main#items::before {
 }
 
 .item {
-  background: #fdf5e6;
+  background: var(--item-bg);
   width: 180px;
   padding: 20px;
   box-shadow: 2px 5px 10px rgba(0,0,0,0.3);
