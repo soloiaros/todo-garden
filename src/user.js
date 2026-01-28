@@ -16,6 +16,10 @@ class User {
   deleteBoard(board) {
     this.boards = this.boards.splice(this.boards.indexOf(board), 1);
   }
+
+  resetBoards() {
+    this.boards = [];
+  }
 }
 
 export default new User();

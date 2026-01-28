@@ -64,3 +64,54 @@ export const listEntryPopover = (listItem, eventFireLocation, inputEntry = null)
 
   return popoverCreate;
 }
+
+export const boardPopover = (user, eventFireLocation, board = null) => {
+  const popoverCreate = document.createElement('div');
+  popoverCreate.id = 'popover-create-board';
+  popoverCreate.setAttribute('popover', '');
+
+  const boardCreated = new CustomEvent('newboardcreated');
+
+  const popoverHeader = document.createElement('h4');
+  popoverHeader.textContent = !!(board) ? "Renovate" : "Are we expecting someone? 👀";
+  
+  const popoverTitleSection = document.createElement('div');
+  const boardTitlePara = document.createElement('p');
+  boardTitlePara.textContent = 'Title';
+  const boardTitle = document.createElement('input');
+  boardTitle.type = 'text';
+  boardTitle.value = board ? board.getName() : '';
+  popoverTitleSection.appendChild(boardTitlePara);
+  popoverTitleSection.appendChild(boardTitle);
+  
+  const popoverDescriptionSection = document.createElement('div');
+  const boardDescriptionPara = document.createElement('p');
+  boardDescriptionPara.textContent = 'Description';
+  const boardDescription = document.createElement('input');
+  boardDescription.type = 'text';
+  boardDescription.value = !!(board) ? board.getDescription() : '';
+  popoverDescriptionSection.appendChild(boardDescriptionPara)
+  popoverDescriptionSection.appendChild(boardDescription)
+  
+  const popoverSubmit = document.createElement('button');
+  popoverSubmit.textContent = !!(board) ? 'Apply' : 'Add';
+  popoverSubmit.setAttribute('popovertargetaction', 'hide');
+  popoverSubmit.addEventListener('click', (event) => {
+    if (!!(board)) {
+      board.setName(boardTitle.value);
+      board.setDescription(boardDescription.value);
+      board.setLocalStorageBoardObject();
+    } else {
+      const newBoard = user.createBoard(boardTitle.value, boardDescription.value);
+      newBoard.setLocalStorageBoardObject();
+    }
+    eventFireLocation.dispatchEvent(boardCreated);
+  })
+
+  popoverCreate.appendChild(popoverHeader);
+  popoverCreate.appendChild(popoverTitleSection);
+  popoverCreate.appendChild(popoverDescriptionSection);
+  popoverCreate.appendChild(popoverSubmit);
+
+  return popoverCreate;
+}

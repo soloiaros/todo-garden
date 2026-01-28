@@ -6,13 +6,12 @@ import createBoardsPageLayout from './boards-page-layout.js';
 
 const LogicController = (() => {
 
+  const user = User;
+
   const addBoard = (name, description) => {
-    if (validateBoardName(name) && validateBoardDescription(description)) {
-      const newBoard = User.createBoard(name, description);
-      newBoard.setLocalStorageBoardObject();
-      return newBoard;
-    }
-    return false;
+    const newBoard = User.createBoard(name, description);
+    newBoard.setLocalStorageBoardObject();
+    return newBoard;
   }
 
   const deleteBoard = (board) => {
@@ -89,6 +88,7 @@ const LogicController = (() => {
   }
 
   const retrieveBoards = () => {
+    user.resetBoards();
     for (let i = 0; i < localStorage.length; i++) {
       let boardId = localStorage.key(i);
       let boardObj = JSON.parse(localStorage.getItem(boardId));
@@ -105,18 +105,8 @@ const LogicController = (() => {
     return User.boards;
   }
 
-  const validateBoardName = (text) => {
-    const MINLENGTH = 1;
-    const MAXLENGTH = 32;
-    return !!(text.length >= MINLENGTH && text.length <= MAXLENGTH)
-  }
-
-  const validateBoardDescription = (text) => {
-    const MAXLENGTH = 256;
-    return !!(text.length <= MAXLENGTH)
-  }
-
   return {
+    user,
     addBoard,
     deleteBoard,
     addBoardItem,
