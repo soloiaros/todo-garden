@@ -7,7 +7,7 @@ export default function renderBoardScreen(board) {
   mainSection.id = 'items';
   mainSection.innerText = '';
   
-  const boardName = document.createElement('div');
+  const boardName = document.createElement('h1');
   boardName.classList.add('board-name');
   boardName.textContent = board.getName();
   mainSection.appendChild(boardName)

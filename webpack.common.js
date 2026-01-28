@@ -25,16 +25,31 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', {loader: 'css-loader', options: { url: false, },}],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              url: {
+                filter: (url) => {
+                  if (url.startsWith('/images/')) {
+                    return false;
+                  }
+                  return true;
+                },
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpeg|jpg|svg|ico)$/i,
         type: 'asset/resource',
       },
       {
-        test: /\.(woff|woff2|ttf)$/i,
-        type: 'asset/resource',
-      }
+        test: /\.(woff|woff2|ttf|otf|eot)$/i,
+        type: "asset/resource",
+      },
     ]
   }
 }
