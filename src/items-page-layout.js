@@ -82,6 +82,11 @@ export default function renderBoardScreen(board) {
     })
 
     itemDiv.addEventListener('newlistentry', () => {
+      console.log('rendering new dialog')
+      const oldDialog = document.getElementById('item-dialog');
+      if (oldDialog) {
+        oldDialog.remove();
+      }
       renderItemDialog();
     })
 
@@ -97,6 +102,8 @@ export default function renderBoardScreen(board) {
   addItemBtnContainer.appendChild(addItemBtn);
   addItemBtn.setAttribute('popovertarget', popoverNewItem.id);
   addItemBtn.setAttribute('aria-label', 'add new item to the board');
+  addItemBtn.id = 'add-item-div';
+  popoverNewItem.setAttribute('anchor', 'add-item-div');
   itemsContainer.appendChild(addItemBtnContainer);
   mainSection.addEventListener('newemptyitem', () => {
     renderBoardScreen(board);

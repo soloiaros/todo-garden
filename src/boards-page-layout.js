@@ -18,10 +18,12 @@ export default function renderBoardScreen(LogicController) {
     mainSection.appendChild(boardDiv);
   }
   const trailingTile = document.createElement('div');
+  trailingTile.id = 'trailing-tile';
   trailingTile.classList.add('board-tile', 'trailing-tile');
   const trailingTileIndex = Math.ceil(Math.random() * 4);
   trailingTile.addEventListener('click', () => {
     const newBoardPopover = boardPopover(LogicController.user, trailingTile);
+    newBoardPopover.setAttribute('anchor', 'trailing-tile');
     mainSection.appendChild(newBoardPopover);
     newBoardPopover.togglePopover();
   })

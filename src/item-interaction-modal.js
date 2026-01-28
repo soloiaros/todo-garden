@@ -71,13 +71,17 @@ export default function (board, item, itemDiv) {
       addEntryBtn.textContent = '+';
       addEntryBtn.setAttribute('popovertarget', popoverNewEntry.id);
       addEntryBtn.setAttribute('aria-label', 'add new entry to the list');
+      addEntryBtn.id = 'add-entry-btn';
       addEntryBtn.type = 'button';
+      popoverNewEntry.setAttribute('anchor', 'add-entry-btn');
       field.appendChild(addEntryBtn);
       const entryObjects = item.getAllEntries();
       for (let i = 0; i < entryObjects.length; i++) {
         const entryContainer = document.createElement('div');
+        entryContainer.id = `entry-container-${i}`;
         const popoverEditEntry = listEntryPopover(item, itemDiv, entryObjects[i]);
         entryContainer.appendChild(popoverEditEntry);
+        popoverEditEntry.setAttribute('anchor', `entry-container-${i}`); 
         entryContainer.classList.add('entry-container');
         const entryLabel = document.createElement('label');
         entryLabel.for = `entry-${i}`;

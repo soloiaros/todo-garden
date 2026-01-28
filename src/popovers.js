@@ -43,6 +43,7 @@ export const listEntryPopover = (listItem, eventFireLocation, inputEntry = null)
   popoverHeader.textContent = !!(inputEntry) ? "Change the entry" : "Let's add new entry!";
   const popoverContents = document.createElement('input');
   popoverContents.type = 'text';
+  popoverContents.setAttribute('autofocus', '');
   popoverContents.value = inputEntry ? inputEntry.contents : '';
   const popoverSubmit = document.createElement('button');
   popoverSubmit.textContent = !!(inputEntry) ? 'Apply' : 'Add';
@@ -80,6 +81,7 @@ export const boardPopover = (user, eventFireLocation, board = null) => {
   boardTitlePara.textContent = 'Title';
   const boardTitle = document.createElement('input');
   boardTitle.type = 'text';
+  boardTitle.setAttribute('autofocus', '');
   boardTitle.value = board ? board.getName() : '';
   popoverTitleSection.appendChild(boardTitlePara);
   popoverTitleSection.appendChild(boardTitle);
