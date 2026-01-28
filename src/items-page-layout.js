@@ -82,7 +82,6 @@ export default function renderBoardScreen(board) {
     })
 
     itemDiv.addEventListener('newlistentry', () => {
-      console.log('new entry added')
       renderItemDialog();
     })
 

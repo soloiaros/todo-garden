@@ -40,16 +40,16 @@ export const listEntryPopover = (listItem, eventFireLocation, inputEntry = null)
   const entryAdded = new CustomEvent('newlistentry');
 
   const popoverHeader = document.createElement('h4');
-  popoverHeader.textContent = "Let's add new entry!";
+  popoverHeader.textContent = !!(inputEntry) ? "Change the entry" : "Let's add new entry!";
   const popoverContents = document.createElement('input');
   popoverContents.type = 'text';
   popoverContents.value = inputEntry ? inputEntry.contents : '';
   const popoverSubmit = document.createElement('button');
-  popoverSubmit.textContent = 'Add';
+  popoverSubmit.textContent = !!(inputEntry) ? 'Apply' : 'Add';
   popoverSubmit.setAttribute('popovertargetaction', 'hide');
   popoverSubmit.addEventListener('click', (event) => {
     event.preventDefault();
-    const checkedState = inputEntry ? inputEntry.checked : false;
+    const checkedState = !!(inputEntry) ? inputEntry.checked : false;
     if (!!(inputEntry)) {
       listItem.removeEntry(inputEntry);
     }

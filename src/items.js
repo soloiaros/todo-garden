@@ -122,8 +122,8 @@ const listFunctionality = (entries) => {
   }
   
   const removeEntry = (entryToRemove) => {
-    if (entries.contains(entryToRemove)) {
-      entries = entries.splice(entries.indexOf(entryToRemove, 1));
+    if (entries.includes(entryToRemove)) {
+      entries.splice(entries.indexOf(entryToRemove), 1);
       return true;
     }
     return false;

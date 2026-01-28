@@ -65,7 +65,6 @@ export default function (board, item, itemDiv) {
       entryHeader.textContent = itemStorageObject.entries.length ? 'Current tasks' : 'No tasks yet';
       field.appendChild(entryHeader);
 
-      // create popover for adding tasks
       const popoverNewEntry = listEntryPopover(item, itemDiv);
       itemDialog.appendChild(popoverNewEntry);
       const addEntryBtn = document.createElement('button');
@@ -74,16 +73,22 @@ export default function (board, item, itemDiv) {
       addEntryBtn.setAttribute('aria-label', 'add new entry to the list');
       addEntryBtn.type = 'button';
       field.appendChild(addEntryBtn);
-      for (let i = 0; i < itemStorageObject.entries.length; i++) {
+      const entryObjects = item.getAllEntries();
+      for (let i = 0; i < entryObjects.length; i++) {
         const entryContainer = document.createElement('div');
+        const popoverEditEntry = listEntryPopover(item, itemDiv, entryObjects[i]);
+        entryContainer.appendChild(popoverEditEntry);
         entryContainer.classList.add('entry-container');
         const entryLabel = document.createElement('label');
         entryLabel.for = `entry-${i}`;
-        entryLabel.textContent = itemStorageObject.entries[i].contents;
+        entryLabel.textContent = entryObjects[i].contents;
+        entryLabel.addEventListener('click', () => {
+          popoverEditEntry.showPopover();
+        })
         const entryCheckbox = document.createElement('input');
         entryCheckbox.type = 'checkbox';
         entryCheckbox.id = `entry-${i}`;
-        entryCheckbox.checked =  itemStorageObject.entries[i].checked;
+        entryCheckbox.checked =  entryObjects[i].checked;
         entryContainer.appendChild(entryCheckbox);
         entryContainer.appendChild(entryLabel)
         field.appendChild(entryContainer);
@@ -111,7 +116,7 @@ export default function (board, item, itemDiv) {
       let fieldKey = '';
       let fieldValue = '';
       if (field.getAttribute('data-field-type') === 'entries') {
-       fieldKey = 'entries';
+        fieldKey = 'entries';
         fieldValue = [];
         for (let entry of field.getElementsByClassName('entry-container')) {
           const entryContents = entry.getElementsByTagName('label')[0].textContent;
