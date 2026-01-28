@@ -25,6 +25,7 @@ export default function Board(boardName, boardDescription, boardId = null) {
   const addItem = (item) => {
     items.unshift(item);
     item.subscribe(setLocalStorageBoardObject);
+    setLocalStorageBoardObject();
   }
 
   const deleteItem = (item) => {

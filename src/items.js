@@ -41,37 +41,11 @@ const noteFunctionality = (title, description) => {
   const getDescription = () => description;
 
   const setTitle = (newTitle) => {
-    if (validateTitle(newTitle)) {
-      title = newTitle;
-      return true;
-    }
-    return false;
+    title = newTitle;
   }
 
   const setDescription = (newDescription) => {
-    if (validateDescription(newDescription)) {
-      description = newDescription;
-      return true;
-    }
-    return false;
-  }
-
-  const validateTitle = (text) => {
-    const MINLENGTH = 1;
-    const MAXLENGTH = 32;
-    if (text.length > MINLENGTH && text.length < MAXLENGTH) {
-      return true;
-    }
-    return false;
-  }
-
-  const validateDescription = (text) => {
-    const MINLENGTH = 1;
-    const MAXLENGTH = 256;
-    if (text.length > MINLENGTH && text.length < MAXLENGTH) {
-      return true;
-    }
-    return false;
+    description = newDescription;
   }
 
   return {
@@ -84,15 +58,28 @@ const noteFunctionality = (title, description) => {
 
 
 const todoFunctionality = (dueDate, priorityLevel) => {
+  console.log(dueDate, new Date(dueDate))
 
   const getDueDate = () => new Date(dueDate);
 
   const getDueDateReadable = () => {
-    return format(dueDate, "MMM do, hh:mmaaa");
+    let formattedDate = ''
+    try {
+      formattedDate = format(dueDate, "MMM do, hh:mmaaa");
+    } catch {
+      formattedDate = 'could not fetch date';
+    }
+    return formattedDate
   }
 
   const getTimeToDueDate = () => {
-    return formatDistance(dueDate, new Date(), {addSuffix: true});
+    let formattedDate = ''
+    try {
+      formattedDate = formatDistance(dueDate, new Date(), {addSuffix: true});
+    } catch {
+      formattedDate = 'could not fetch time span';
+    }
+    return formattedDate;
   }
 
   const getPriorityLevel = () => priorityLevel;
@@ -161,10 +148,6 @@ const listFunctionality = (entries) => {
     return convertedEntries;
   }
   
-  const getEntryCheckedState = (entry) => {
-    return !!(entry.checked);
-  }
-  
   const tickEntry = (entry) => {
     entry.checked = !entry.checked;
   }
@@ -173,7 +156,6 @@ const listFunctionality = (entries) => {
     getAllEntries,
     addEntry,
     removeEntry,
-    getEntryCheckedState,
     tickEntry,
     setEntries,
     getListEntriesStorageObject,
@@ -194,7 +176,7 @@ function checkListEntry(listEntry) {
   return !!(listEntry && listEntry[isEntryFlag]);
 }
 
-export const NoteItem = (title, description) => {
+export const NoteItem = (title = null, description = null) => {
 
   const note = noteFunctionality(title, description);
 
@@ -213,7 +195,7 @@ export const NoteItem = (title, description) => {
   return itemObject;
 }
 
-export const TODOItem = (title, description, dueDate, priority) => {
+export const TODOItem = (title = null, description = null, dueDate = (new Date()).getTime(), priority = null) => {
   const note = noteFunctionality(title, description);
   const todo = todoFunctionality(dueDate, priority);
   const itemObject = {
@@ -234,7 +216,7 @@ export const TODOItem = (title, description, dueDate, priority) => {
   return itemObject;
 }
 
-export const ListItem = (title, description, entries) => {
+export const ListItem = (title = null, description = null, entries = []) => {
   const note = noteFunctionality(title, description);
   const list = listFunctionality(entries);
   const itemObject = {
@@ -254,7 +236,7 @@ export const ListItem = (title, description, entries) => {
   return itemObject;
 }
 
-export const TODOListItem = (title, description, dueDate, priority, entries) => {
+export const TODOListItem = (title = null, description = null, dueDate = (new Date()).getTime(), priority = null, entries = []) => {
   const note = noteFunctionality(title, description);
   const list = listFunctionality(entries);
   const todo = todoFunctionality(dueDate, priority);

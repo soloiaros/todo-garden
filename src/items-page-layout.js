@@ -1,4 +1,5 @@
 import createModal from './item-interaction-modal.js';
+import { listEntry, NoteItem, TODOItem, ListItem, TODOListItem } from './items.js';
 import './static/styles/items-screen.css';
 
 export default function renderBoardScreen(board) {
@@ -79,17 +80,44 @@ export default function renderBoardScreen(board) {
     itemsContainer.appendChild(itemDiv);
   }
 
-  const trailingItem = document.createElement('div');
-  trailingItem.classList.add('item', 'trailing-item');
-  trailingItem.addEventListener('mouseenter', () => {
-      if (!trailingItem.classList.contains('item-hovered')) {
-        trailingItem.classList.add('item-hovered');
-      }
+  const popoverCreateId = 'create-item-popover';
+
+  const addItemBtnContainer = document.createElement('div');
+  addItemBtnContainer.classList.add('add-item-btn-container');
+  const addItemBtn = document.createElement('button');
+  addItemBtnContainer.appendChild(addItemBtn);
+  addItemBtn.setAttribute('popovertarget', popoverCreateId);
+  addItemBtn.setAttribute('aria-label', 'add new item to the board');
+  itemsContainer.appendChild(addItemBtnContainer);
+
+  // popover for creating new items
+  const itemTypes = {
+    'note': NoteItem,
+    'todo': TODOItem,
+    'list': ListItem,
+    'todolist': TODOListItem,
+  }
+  const popoverCreate = document.createElement('div');
+  popoverCreate.id = popoverCreateId;
+  popoverCreate.setAttribute('popover', '');
+
+  const popoverHeading = document.createElement('h4');
+  popoverHeading.textContent = 'Select the kind of element:';
+  popoverCreate.appendChild(popoverHeading);
+  for (let [itemType, itemTypeName] of Object.entries({'note': 'Note', 'todo': 'TODO', 'list': 'List', 'todolist': 'TODO List'})) {
+    const itemTypeBtn = document.createElement('button');
+    itemTypeBtn.classList.add('item-type-btn');
+    itemTypeBtn.setAttribute('data-item-type', itemType);
+    itemTypeBtn.textContent = itemTypeName;
+    itemTypeBtn.setAttribute('popovertargetaction', 'hide');
+    itemTypeBtn.addEventListener('click', () => {
+      const createdItem = itemTypes[itemType]();
+      board.addItem(createdItem);
+      renderBoardScreen(board);
     })
-    trailingItem.addEventListener('animationend', () => {
-      trailingItem.classList.remove('item-hovered');
-    })
-  itemsContainer.appendChild(trailingItem);
+    popoverCreate.appendChild(itemTypeBtn);
+  }
+  mainSection.appendChild(popoverCreate);
 
   mainSection.appendChild(itemsContainer);
 }
