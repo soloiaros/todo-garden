@@ -1,12 +1,73 @@
 import createModal from './item-interaction-modal.js';
 import './static/styles/items-screen.css';
-import { compareDesc } from 'date-fns';
+import { compareDesc, compareAsc } from 'date-fns';
 import { createNewItemPopover } from './popovers.js';
 
-export default function renderBoardScreen(board) {
+const sortItems = (items, sortingOrderParam = null) => {
+  const sortingSelect = document.querySelector('#sorting');
+  const sortingOrder = sortingOrderParam || (sortingSelect ? sortingSelect.value : null);
+
+  switch (sortingOrder) {
+    case 'by-date-created-incr':
+      items.sort((item1, item2) => compareDesc(item1.getDateCreated(), item2.getDateCreated()));
+      return items;
+    case 'by-date-created-dcr':
+      items.sort((item1, item2) => compareAsc(item1.getDateCreated(), item2.getDateCreated()));
+      return items;
+    case 'by-date-changed-incr':
+      items.sort((item1, item2) => compareDesc(item1.getDateChanged(), item2.getDateChanged()));
+      return items;
+    case 'by-date-changed-dcr':
+      items.sort((item1, item2) => compareAsc(item1.getDateChanged(), item2.getDateChanged()));
+      return items;
+    case 'by-name-incr':
+      items.sort((item1, item2) => item1.getTitle().localeCompare(item2.getTitle()));
+      return items;
+    case 'by-name-dcr':
+      items.sort((item1, item2) => item2.getTitle().localeCompare(item1.getTitle()));
+      return items;
+  }
+  return items;
+}
+
+export default function renderBoardScreen(board, sortPreference = null) {
   const mainSection = document.querySelector('main');
   mainSection.id = 'items';
   mainSection.innerText = '';
+
+  const sortingOptions = {
+    'by-date-created-incr': 'Date Added ↑',
+    'by-date-created-dcr': 'Date Added ↓',
+    'by-date-changed-incr': 'Date Changed ↑',
+    'by-date-changed-dcr': 'Date Changed ↓',
+    'by-name-incr': 'Title ↑',
+    'by-name-dcr': 'Title ↓',
+  }
+  const screenManagement = document.createElement('div');
+  screenManagement.classList.add('screen-management');
+  const sortingLabel = document.createElement('label');
+  sortingLabel.for = 'sorting';
+  const sortingSelect = document.createElement('select');
+  sortingSelect.id = 'sorting';
+  for (let key in sortingOptions) {
+    const sortBy = document.createElement('option');
+    sortBy.setAttribute('value', key);
+    sortBy.textContent = sortingOptions[key];
+    if (key === sortPreference) {
+      sortBy.setAttribute('selected', '');
+    }
+    sortingSelect.appendChild(sortBy);
+  }
+  sortingLabel.appendChild(sortingSelect);
+  screenManagement.appendChild(sortingLabel);
+  const hidePanelBtn = document.createElement('button');
+  hidePanelBtn.classList.add('hide-upper-panel');
+  screenManagement.appendChild(hidePanelBtn);
+  sortingSelect.addEventListener('change', (event) => {
+    renderBoardScreen(board, event.target.value);
+  })
+  mainSection.appendChild(screenManagement);
+  
   
   const boardName = document.createElement('h1');
   boardName.classList.add('board-name');
@@ -16,9 +77,7 @@ export default function renderBoardScreen(board) {
   const itemsContainer = document.createElement('div');
   itemsContainer.classList.add('items-container');
 
-  const sortedItems = board.getItems().sort((item1, item2) => {
-    return compareDesc(item1.getDateCreated(), item2.getDateCreated())
-  })
+  const sortedItems = sortItems(board.getItems(), sortPreference);
 
   for (let item of sortedItems) {
     const itemDiv = document.createElement('div');
@@ -87,7 +146,6 @@ export default function renderBoardScreen(board) {
     })
 
     itemDiv.addEventListener('newlistentry', () => {
-      console.log('rendering new dialog')
       const oldDialog = document.getElementById('item-dialog');
       if (oldDialog) {
         oldDialog.remove();

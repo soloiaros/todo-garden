@@ -30,7 +30,11 @@ const LogicController = (() => {
   }
 
   const retrieveNoteItem = (storageObject) => {
-    return NoteItem(storageObject['title'], storageObject['description']);
+    return NoteItem(
+      storageObject['title'],
+      storageObject['description'],
+      storageObject['dateCreated'],
+      storageObject['dateChanged'],);
   }
 
   const retrieveTODOItem = (storageObject) => {
@@ -39,6 +43,8 @@ const LogicController = (() => {
           storageObject['description'],
           Date.parse(storageObject['dueDate']),
           storageObject['priority'],
+          storageObject['dateCreated'],
+          storageObject['dateChanged'],
         );
   }
 
@@ -51,6 +57,8 @@ const LogicController = (() => {
       storageObject['title'],
       storageObject['description'],
       entries,
+      storageObject['dateCreated'],
+      storageObject['dateChanged'],
     )
   }
 
@@ -65,6 +73,8 @@ const LogicController = (() => {
       new Date(storageObject['dueDate']),
       storageObject['priority'],
       entries,
+      storageObject['dateCreated'],
+      storageObject['dateChanged'],
     )
   }
 
