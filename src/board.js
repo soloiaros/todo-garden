@@ -27,6 +27,7 @@ export default function Board(boardName, boardDescription, sortPreference, board
 
   const setboardTexture = (newboardTexture) => {
     boardTexture = newboardTexture;
+    setLocalStorageBoardObject();
   }
 
   const getDateCreated = () => !!(dateCreated) ? dateCreated : new Date();
