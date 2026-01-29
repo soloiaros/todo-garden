@@ -1,5 +1,6 @@
 import createModal from './item-interaction-modal.js';
 import './static/styles/items-screen.css';
+import { compareDesc } from 'date-fns';
 import { createNewItemPopover } from './popovers.js';
 
 export default function renderBoardScreen(board) {
@@ -15,7 +16,11 @@ export default function renderBoardScreen(board) {
   const itemsContainer = document.createElement('div');
   itemsContainer.classList.add('items-container');
 
-  for (let item of board.getItems()) {
+  const sortedItems = board.getItems().sort((item1, item2) => {
+    return compareDesc(item1.getDateCreated(), item2.getDateCreated())
+  })
+
+  for (let item of sortedItems) {
     const itemDiv = document.createElement('div');
     itemDiv.classList.add('item');
 
@@ -24,7 +29,7 @@ export default function renderBoardScreen(board) {
     const allItemFields = item.getItemObject();
     itemDiv.classList.add(allItemFields.type);
     for (let key in allItemFields) {
-      if (key !== 'type') {
+      if (!['type', 'dateCreated', 'dateChanged'].includes(key)) {
         const itemInfoField = document.createElement('span');
         if (key === 'dueDate') {
           itemInfoField.innerText = 'Deadline is on ' + item.getDueDateReadable();

@@ -14,6 +14,7 @@ const updateSelfFunctionality = (itemInstance, updates) => {
       itemInstance[setterName](updates[updateKey]);
     }
   }
+  itemInstance.setDateChanged(new Date());
   itemInstance.notify();
 }
 
@@ -34,14 +35,22 @@ const observerFunctionality = () => {
   }
 }
 
-const noteFunctionality = (title, description) => {
+const noteFunctionality = (title, description, dateCreated, dateChanged) => {
 
   const getTitle = () => title;
   
   const getDescription = () => description;
 
+  const getDateCreated = () => dateCreated;
+
+  const getDateChanged = () => dateChanged;
+
   const setTitle = (newTitle) => {
     title = newTitle;
+  }
+
+  const setDateChanged = (date) => {
+    dateChanged = date;
   }
 
   const setDescription = (newDescription) => {
@@ -51,6 +60,9 @@ const noteFunctionality = (title, description) => {
   return {
     getTitle,
     getDescription,
+    getDateCreated,
+    getDateChanged,
+    setDateChanged,
     setTitle,
     setDescription,
   }
@@ -174,9 +186,9 @@ function checkListEntry(listEntry) {
   return !!(listEntry && listEntry[isEntryFlag]);
 }
 
-export const NoteItem = (title = null, description = null) => {
+export const NoteItem = (title = null, description = null, dateCreated = new Date(), dateChanged = new Date()) => {
 
-  const note = noteFunctionality(title, description);
+  const note = noteFunctionality(title, description, dateCreated, dateChanged);
 
   const itemObject = {
     ...note,
@@ -185,7 +197,9 @@ export const NoteItem = (title = null, description = null) => {
       return {
         type: 'note',
         title: note.getTitle(),
-        description: note.getDescription()
+        description: note.getDescription(),
+        dateCreated: note.getDateCreated(),
+        dateChanged: note.getDateChanged(),
       };
     },
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
@@ -193,8 +207,8 @@ export const NoteItem = (title = null, description = null) => {
   return itemObject;
 }
 
-export const TODOItem = (title = null, description = null, dueDate = (new Date()).getTime(), priority = null) => {
-  const note = noteFunctionality(title, description);
+export const TODOItem = (title = null, description = null, dueDate = (new Date()).getTime(), priority = null, dateCreated = new Date(), dateChanged = new Date()) => {
+  const note = noteFunctionality(title, description, dateCreated, dateChanged);
   const todo = todoFunctionality(dueDate, priority);
   const itemObject = {
     ...note,
@@ -207,6 +221,8 @@ export const TODOItem = (title = null, description = null, dueDate = (new Date()
         description: note.getDescription(),
         dueDate: todo.getDueDate(),
         priority: todo.getPriorityLevel(),
+        dateCreated: note.getDateCreated(),
+        dateChanged: note.getDateChanged(),
       }
     },
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
@@ -214,8 +230,8 @@ export const TODOItem = (title = null, description = null, dueDate = (new Date()
   return itemObject;
 }
 
-export const ListItem = (title = null, description = null, entries = []) => {
-  const note = noteFunctionality(title, description);
+export const ListItem = (title = null, description = null, entries = [], dateCreated = new Date(), dateChanged = new Date()) => {
+  const note = noteFunctionality(title, description, dateCreated, dateChanged);
   const list = listFunctionality(entries);
   const itemObject = {
     ...note,
@@ -227,6 +243,8 @@ export const ListItem = (title = null, description = null, entries = []) => {
         title: note.getTitle(),
         description: note.getDescription(),
         entries: list.getListEntriesStorageObject(),
+        dateCreated: note.getDateCreated(),
+        dateChanged: note.getDateChanged(),
       }
     },
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
@@ -234,8 +252,8 @@ export const ListItem = (title = null, description = null, entries = []) => {
   return itemObject;
 }
 
-export const TODOListItem = (title = null, description = null, dueDate = (new Date()).getTime(), priority = null, entries = []) => {
-  const note = noteFunctionality(title, description);
+export const TODOListItem = (title = null, description = null, dueDate = (new Date()).getTime(), priority = null, entries = [], dateCreated = new Date(), dateChanged = new Date()) => {
+  const note = noteFunctionality(title, description, dateCreated, dateChanged);
   const list = listFunctionality(entries);
   const todo = todoFunctionality(dueDate, priority);
   const itemObject = {
@@ -251,6 +269,8 @@ export const TODOListItem = (title = null, description = null, dueDate = (new Da
         dueDate: todo.getDueDate(),
         priority: todo.getPriorityLevel(),
         entries: list.getListEntriesStorageObject(),
+        dateCreated: note.getDateCreated(),
+        dateChanged: note.getDateChanged(),
       }
     },
     updateSelf: (updates) => updateSelfFunctionality(itemObject, updates),
