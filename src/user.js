@@ -8,8 +8,9 @@ class User {
     this.defaultSortPreference = 'by-date-created-incr';
   }
 
-  createBoard(boardName, boardDescription, boardId = null, dateCreated = new Date(), sortPreference = this.defaultSortPreference) {
-    const newBoard = Board(boardName, boardDescription, sortPreference, boardId, dateCreated = dateCreated);
+  createBoard(boardName, boardDescription, textureIndex, boardId = null, dateCreated = new Date(), sortPreference = this.defaultSortPreference) {
+    const newBoard = Board(boardName, boardDescription, sortPreference, textureIndex, boardId, dateCreated = dateCreated);
+    newBoard.updateBoardSize();
     this.boards.unshift(newBoard);
     return newBoard
   }

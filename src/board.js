@@ -1,8 +1,19 @@
-export default function Board(boardName, boardDescription, sortPreference, boardId = null, dateCreated = null) {
+import { SMALLBOARDITEMNUMBER, MEDIUMBOARDITENUMBER } from "./shared-values";
+
+export default function Board(boardName, boardDescription, sortPreference, boardTexture, boardId = null, dateCreated = null) {
 
   boardId = !!(boardId) ? boardId : crypto.randomUUID();
 
   let items = [];
+
+  let boardSize = '';
+
+  const updateBoardSize = () => {
+    boardSize = items.length <= SMALLBOARDITEMNUMBER ? 'small' 
+      : items.length > MEDIUMBOARDITENUMBER ? 'large' : 'medium';
+  }
+
+  const getBoardSize = () => boardSize;
 
   const getName = () => boardName;
   
@@ -11,6 +22,12 @@ export default function Board(boardName, boardDescription, sortPreference, board
   const getItems = () => {
     return items;
   };
+
+  const getboardTexture = () => boardTexture;
+
+  const setboardTexture = (newboardTexture) => {
+    boardTexture = newboardTexture;
+  }
 
   const getDateCreated = () => !!(dateCreated) ? dateCreated : new Date();
 
@@ -36,6 +53,7 @@ export default function Board(boardName, boardDescription, sortPreference, board
   const addItem = (item) => {
     items.unshift(item);
     item.subscribe(setLocalStorageBoardObject);
+    updateBoardSize();
     setLocalStorageBoardObject();
   }
 
@@ -54,6 +72,7 @@ export default function Board(boardName, boardDescription, sortPreference, board
       items: [],
       dateCreated: getDateCreated(),
       sortPreference: getSortPreference(),
+      boardTexture: getboardTexture(),
     };
     items.forEach((item) => {
       boardObj.items.unshift(item.getItemObject())
@@ -73,11 +92,15 @@ export default function Board(boardName, boardDescription, sortPreference, board
     getItems,
     getDateCreated,
     getSortPreference,
+    getBoardSize,
+    getboardTexture,
+    setboardTexture,
     setSortPreference,
     setName,
     setDescription,
     addItem,
     deleteItem,
     setLocalStorageBoardObject,
+    updateBoardSize,
   }
 }

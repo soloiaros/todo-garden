@@ -1,4 +1,5 @@
 import { listEntry, NoteItem, TODOItem, ListItem, TODOListItem } from './items.js';
+import { classifiedBoardTextures } from './shared-values.js';
 
 export const createNewItemPopover = (board, eventFireLocation) => {
   const itemTypes = {
@@ -67,6 +68,7 @@ export const listEntryPopover = (listItem, eventFireLocation, inputEntry = null)
 }
 
 export const boardPopover = (user, eventFireLocation, board = null) => {
+
   const popoverCreate = document.createElement('div');
   popoverCreate.id = 'popover-create-board';
   popoverCreate.setAttribute('popover', '');
@@ -104,7 +106,7 @@ export const boardPopover = (user, eventFireLocation, board = null) => {
       board.setDescription(boardDescription.value);
       board.setLocalStorageBoardObject();
     } else {
-      const newBoard = user.createBoard(boardTitle.value, boardDescription.value);
+      const newBoard = user.createBoard(boardTitle.value, boardDescription.value, classifiedBoardTextures['small'][Math.floor(Math.random() * classifiedBoardTextures['small'].length)]);
       newBoard.setLocalStorageBoardObject();
     }
     eventFireLocation.dispatchEvent(boardCreated);

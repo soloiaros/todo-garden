@@ -1,5 +1,6 @@
 import User from './user.js';
 import { listEntry, NoteItem, TODOItem, ListItem, TODOListItem } from './items.js';
+import { classifiedBoardTextures } from './shared-values.js';
 import './static/styles/common.css';
 
 import createBoardsPageLayout from './boards-page-layout.js';
@@ -107,9 +108,16 @@ const LogicController = (() => {
         const retrievedItem = retrieveItem(item);
         boardsItems.unshift(retrievedItem);
       }
-      const retrievedBoard = User.createBoard(boardObj.name, boardObj.description, boardId, new Date(boardObj.dateCreated), boardObj.sortPreference);
+      const retrievedBoard = User.createBoard(boardObj.name, boardObj.description, boardObj.textureIndex, boardId, new Date(boardObj.dateCreated), boardObj.sortPreference);
       for (let item of boardsItems) {
         retrievedBoard.addItem(item);
+      }
+      const boardSize = retrievedBoard.getBoardSize();
+      const currentBoardTexture = retrievedBoard.getboardTexture();
+      console.log(boardSize)
+      if (!classifiedBoardTextures[boardSize].includes(currentBoardTexture)) {
+        const newBoardTexture = classifiedBoardTextures[boardSize][Math.floor(Math.random() * classifiedBoardTextures[boardSize].length)];
+        retrievedBoard.setboardTexture(newBoardTexture);
       }
     }
     return User.boards;
