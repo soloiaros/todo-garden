@@ -58,7 +58,7 @@ main#boards {
 }
 
 .board-tile:not(.trailing-tile)::before {
-  background-image: url('/images/house-tiles/house-small-1.png');
+  background-image: var(--board-bg-image);
 }
 
 .board-tile.trailing-tile::before {

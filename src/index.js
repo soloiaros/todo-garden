@@ -113,11 +113,11 @@ const LogicController = (() => {
         retrievedBoard.addItem(item);
       }
       const boardSize = retrievedBoard.getBoardSize();
-      const currentBoardTexture = retrievedBoard.getboardTexture();
+      const currentBoardTexture = retrievedBoard.getBoardTexture();
       console.log(boardSize)
       if (!classifiedBoardTextures[boardSize].includes(currentBoardTexture)) {
         const newBoardTexture = classifiedBoardTextures[boardSize][Math.floor(Math.random() * classifiedBoardTextures[boardSize].length)];
-        retrievedBoard.setboardTexture(newBoardTexture);
+        retrievedBoard.setBoardTexture(newBoardTexture);
       }
     }
     return User.boards;

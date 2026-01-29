@@ -1,6 +1,7 @@
 import createItemsPageLayout from './items-page-layout.js';
 import { boardPopover } from './popovers.js';
 import { compareDesc } from 'date-fns';
+import { TILEIMAGEROOT } from './shared-values.js';
 import './static/styles/boards-screen.css';
 
 export default function renderBoardScreen(LogicController) {
@@ -63,6 +64,7 @@ export default function renderBoardScreen(LogicController) {
     boardDiv.addEventListener('click', () => {
       createItemsPageLayout(board);
     });
+    boardDiv.style.setProperty('--board-bg-image', `url(${TILEIMAGEROOT}${board.getBoardTexture()})`);
     const boardTitle = document.createElement('div');
     boardTitle.classList.add('board-name');
     boardTitle.textContent = board.getName();

@@ -15,3 +15,5 @@ export const classifiedBoardTextures = {
     'house-large-1.png',
   ]
 }
+
+export const TILEIMAGEROOT = '/images/house-tiles/';

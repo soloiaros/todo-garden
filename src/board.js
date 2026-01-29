@@ -23,9 +23,9 @@ export default function Board(boardName, boardDescription, sortPreference, board
     return items;
   };
 
-  const getboardTexture = () => boardTexture;
+  const getBoardTexture = () => boardTexture;
 
-  const setboardTexture = (newboardTexture) => {
+  const setBoardTexture = (newboardTexture) => {
     boardTexture = newboardTexture;
     setLocalStorageBoardObject();
   }
@@ -73,7 +73,7 @@ export default function Board(boardName, boardDescription, sortPreference, board
       items: [],
       dateCreated: getDateCreated(),
       sortPreference: getSortPreference(),
-      boardTexture: getboardTexture(),
+      boardTexture: getBoardTexture(),
     };
     items.forEach((item) => {
       boardObj.items.unshift(item.getItemObject())
@@ -94,8 +94,8 @@ export default function Board(boardName, boardDescription, sortPreference, board
     getDateCreated,
     getSortPreference,
     getBoardSize,
-    getboardTexture,
-    setboardTexture,
+    getBoardTexture,
+    setBoardTexture,
     setSortPreference,
     setName,
     setDescription,
