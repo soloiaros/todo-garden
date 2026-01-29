@@ -163,7 +163,7 @@ div.screen-management {
   transform: translate(-35%, -50%);
   width: 70%;
   height: 70%;
-  background: url('/images/icons/plus-sign.svg');
+  background: url('./images/icons/plus-sign.svg');
   background-repeat: no-repeat;
   background-size: contain;
   mix-blend-mode:exclusion;

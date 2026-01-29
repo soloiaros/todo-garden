@@ -16,4 +16,4 @@ export const classifiedBoardTextures = {
   ]
 }
 
-export const TILEIMAGEROOT = '/images/house-tiles/';
+export const TILEIMAGEROOT = './images/house-tiles/';
