@@ -1,4 +1,4 @@
-export default function Board(boardName, boardDescription, boardId = null, dateCreated = null) {
+export default function Board(boardName, boardDescription, sortPreference, boardId = null, dateCreated = null) {
 
   boardId = !!(boardId) ? boardId : crypto.randomUUID();
 
@@ -16,12 +16,21 @@ export default function Board(boardName, boardDescription, boardId = null, dateC
 
   const getBoardId = () => boardId;
 
+  const getSortPreference = () => sortPreference;
+
+  const setSortPreference = (newSortPreference) => {
+    sortPreference = newSortPreference;
+    setLocalStorageBoardObject();
+  }
+
   const setName = (newName) => {
     boardName = newName;
+    setLocalStorageBoardObject();
   }
 
   const setDescription = (newDescription) => {
     boardDescription = newDescription;
+    setLocalStorageBoardObject();
   }
 
   const addItem = (item) => {
@@ -44,6 +53,7 @@ export default function Board(boardName, boardDescription, boardId = null, dateC
       description: boardDescription,
       items: [],
       dateCreated: getDateCreated(),
+      sortPreference: getSortPreference(),
     };
     items.forEach((item) => {
       boardObj.items.unshift(item.getItemObject())
@@ -62,6 +72,8 @@ export default function Board(boardName, boardDescription, boardId = null, dateC
     getBoardId,
     getItems,
     getDateCreated,
+    getSortPreference,
+    setSortPreference,
     setName,
     setDescription,
     addItem,

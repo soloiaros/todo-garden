@@ -3,7 +3,7 @@ import './static/styles/items-screen.css';
 import { compareDesc, compareAsc } from 'date-fns';
 import { createNewItemPopover } from './popovers.js';
 
-const sortItems = (items, sortingOrderParam = null) => {
+const sortItems = (items, sortingOrderParam) => {
   const sortingSelect = document.querySelector('#sorting');
   const sortingOrder = sortingOrderParam || (sortingSelect ? sortingSelect.value : null);
 
@@ -21,20 +21,29 @@ const sortItems = (items, sortingOrderParam = null) => {
       items.sort((item1, item2) => compareAsc(item1.getDateChanged(), item2.getDateChanged()));
       return items;
     case 'by-name-incr':
-      items.sort((item1, item2) => item1.getTitle() > item2.getTitle());
+      items.sort((item1, item2) => {
+        const item1Title = item1.getTitle() || '';
+        const item2Title = item2.getTitle() || '';
+        return item1Title.localeCompare(item2Title);
+      });
       return items;
     case 'by-name-dcr':
-      items.sort((item1, item2) => item2.getTitle() > item1.getTitle());
+      items.sort((item1, item2) => {
+        const item1Title = item1.getTitle() || '';
+        const item2Title = item2.getTitle() || '';
+        return item2Title.localeCompare(item1Title);
+      });
       return items;
   }
   return items;
 }
 
-export default function renderBoardScreen(board, sortPreference = null) {
+export default function renderBoardScreen(board) {
   const mainSection = document.querySelector('main');
   mainSection.id = 'items';
   mainSection.innerText = '';
 
+  const sortPreference = board.getSortPreference();
   const sortingOptions = {
     'by-date-created-incr': 'Date Added ↑',
     'by-date-created-dcr': 'Date Added ↓',
@@ -64,7 +73,8 @@ export default function renderBoardScreen(board, sortPreference = null) {
   hidePanelBtn.classList.add('hide-upper-panel');
   screenManagement.appendChild(hidePanelBtn);
   sortingSelect.addEventListener('change', (event) => {
-    renderBoardScreen(board, event.target.value);
+    board.setSortPreference(event.target.value);
+    renderBoardScreen(board);
   })
   mainSection.appendChild(screenManagement);
   

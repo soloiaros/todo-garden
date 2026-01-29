@@ -107,7 +107,7 @@ const LogicController = (() => {
         const retrievedItem = retrieveItem(item);
         boardsItems.unshift(retrievedItem);
       }
-      const retrievedBoard = User.createBoard(boardObj.name, boardObj.description, boardId, new Date(boardObj.dateCreated));
+      const retrievedBoard = User.createBoard(boardObj.name, boardObj.description, boardId, new Date(boardObj.dateCreated), boardObj.sortPreference);
       for (let item of boardsItems) {
         retrievedBoard.addItem(item);
       }

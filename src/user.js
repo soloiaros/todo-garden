@@ -5,10 +5,11 @@ class User {
   constructor(userName) {
     this.userName = userName;
     this.boards = [];
+    this.defaultSortPreference = 'by-date-created-incr';
   }
 
-  createBoard(boardName, boardDescription, boardId = null, dateCreated = new Date()) {
-    const newBoard = Board(boardName, boardDescription, boardId, dateCreated = dateCreated);
+  createBoard(boardName, boardDescription, boardId = null, dateCreated = new Date(), sortPreference = this.defaultSortPreference) {
+    const newBoard = Board(boardName, boardDescription, sortPreference, boardId, dateCreated = dateCreated);
     this.boards.unshift(newBoard);
     return newBoard
   }
