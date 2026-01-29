@@ -26,16 +26,14 @@ main#boards {
   transition: all 0.1s ease-in;
   cursor: pointer;
   position: relative;
-  filter: drop-shadow(5px 5px 5px #222);
-  transform: translateY(0);
-  transition: transform 0.5s ease-out;
 }
 
 .board-tile > .board-name {
   position: absolute;
   top: clamp(-3rem, -2rem - 10%, -1rem);
   height: 1rem;
-  left: 0;
+  left: 50%;
+  transform: translate(-50%);
   width: calc(100% - 2rem);
   padding: clamp(0.5rem, 1rem - 10%, 1rem);
   text-wrap-mode: nowrap;
@@ -47,16 +45,31 @@ main#boards {
   place-content: center;
 }
 
-.board-tile:not(.trailing-tile) {
+.board-tile::before {
+  content: '';
+  top: 0;
+  left: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  filter: drop-shadow(5px 5px 5px #222);
+}
+
+.board-tile:not(.trailing-tile)::before {
   background-image: url('/images/house-tiles/house-small-1.png');
 }
 
-.board-tile.trailing-tile {
+.board-tile.trailing-tile::before {
   background-image: var(--trailing-tile-bg);
-  position: relative;
 }
 
-.board-tile.tile-hovered {
+.board-tile.tile-hovered::before {
+  animation: tile-float 1.3s ease-in-out infinite;
+}
+
+.board-tile.trailing-tile.tile-hovered::after {
   animation: tile-float 1.3s ease-in-out infinite;
 }
 

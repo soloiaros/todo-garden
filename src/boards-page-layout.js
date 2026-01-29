@@ -32,6 +32,24 @@ export default function renderBoardScreen(LogicController) {
       }
     });
   }
+
+  const trailingTile = document.createElement('div');
+  trailingTile.id = 'trailing-tile';
+  trailingTile.classList.add('board-tile', 'trailing-tile');
+  const trailingTileIndex = Math.ceil(Math.random() * 4);
+  trailingTile.addEventListener('click', () => {
+    const newBoardPopover = boardPopover(LogicController.user, trailingTile);
+    newBoardPopover.setAttribute('anchor', 'trailing-tile');
+    mainSection.appendChild(newBoardPopover);
+    newBoardPopover.togglePopover();
+  })
+  trailingTile.addEventListener('newboardcreated', () => {
+    renderBoardScreen(LogicController);
+  })
+  addAnimationTracking(trailingTile);
+  mainSection.style.setProperty('--trailing-tile-bg', `url(/images/ground-tiles/tile${trailingTileIndex}.png)`);
+  tilesContainer.appendChild(trailingTile);
+  mainSection.appendChild(tilesContainer);
   
   const allBoards = LogicController.retrieveBoards();
   // Sort the boards list, so that the newest board is always the first
@@ -54,21 +72,4 @@ export default function renderBoardScreen(LogicController) {
 
     tilesContainer.appendChild(boardDiv);
   }
-  const trailingTile = document.createElement('div');
-  trailingTile.id = 'trailing-tile';
-  trailingTile.classList.add('board-tile', 'trailing-tile');
-  const trailingTileIndex = Math.ceil(Math.random() * 4);
-  trailingTile.addEventListener('click', () => {
-    const newBoardPopover = boardPopover(LogicController.user, trailingTile);
-    newBoardPopover.setAttribute('anchor', 'trailing-tile');
-    mainSection.appendChild(newBoardPopover);
-    newBoardPopover.togglePopover();
-  })
-  trailingTile.addEventListener('newboardcreated', () => {
-    renderBoardScreen(LogicController);
-  })
-  addAnimationTracking(trailingTile);
-  mainSection.style.setProperty('--trailing-tile-bg', `url(/images/ground-tiles/tile${trailingTileIndex}.png)`);
-  tilesContainer.appendChild(trailingTile);
-  mainSection.appendChild(tilesContainer);
 }
