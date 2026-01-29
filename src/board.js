@@ -1,4 +1,4 @@
-export default function Board(boardName, boardDescription, boardId = null) {
+export default function Board(boardName, boardDescription, boardId = null, dateCreated = null) {
 
   boardId = !!(boardId) ? boardId : crypto.randomUUID();
 
@@ -11,6 +11,8 @@ export default function Board(boardName, boardDescription, boardId = null) {
   const getItems = () => {
     return items;
   };
+
+  const getDateCreated = () => !!(dateCreated) ? dateCreated : new Date();
 
   const getBoardId = () => boardId;
 
@@ -40,7 +42,8 @@ export default function Board(boardName, boardDescription, boardId = null) {
     const boardObj =  {
       name: boardName,
       description: boardDescription,
-      items: []
+      items: [],
+      dateCreated: getDateCreated(),
     };
     items.forEach((item) => {
       boardObj.items.unshift(item.getItemObject())
@@ -58,6 +61,7 @@ export default function Board(boardName, boardDescription, boardId = null) {
     getDescription,
     getBoardId,
     getItems,
+    getDateCreated,
     setName,
     setDescription,
     addItem,

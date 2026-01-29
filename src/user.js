@@ -7,8 +7,8 @@ class User {
     this.boards = [];
   }
 
-  createBoard(boardName, boardDescription, boardId = null, items = null) {
-    const newBoard = Board(boardName, boardDescription, boardId, items);
+  createBoard(boardName, boardDescription, boardId = null, dateCreated = new Date()) {
+    const newBoard = Board(boardName, boardDescription, boardId, dateCreated = dateCreated);
     this.boards.unshift(newBoard);
     return newBoard
   }

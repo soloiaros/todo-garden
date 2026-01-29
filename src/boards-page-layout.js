@@ -1,5 +1,6 @@
 import createItemsPageLayout from './items-page-layout.js';
 import { boardPopover } from './popovers.js';
+import { compareDesc } from 'date-fns';
 import './static/styles/boards-screen.css';
 
 export default function renderBoardScreen(LogicController) {
@@ -33,6 +34,11 @@ export default function renderBoardScreen(LogicController) {
   }
   
   const allBoards = LogicController.retrieveBoards();
+  // Sort the boards list, so that the newest board is always the first
+  allBoards.sort((board1, board2) => {
+    return compareDesc(board1.getDateCreated(), board2.getDateCreated())
+  });
+
   for (let board of allBoards) {
     const boardDiv = document.createElement('div');
     boardDiv.classList.add('board-tile');

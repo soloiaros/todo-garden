@@ -36,6 +36,21 @@ h1, h2, h3, h4, h5, h6, button {
   font-family: var(--headings-fonts);
 }
 
+input,
+button,
+select {
+  font-size: 1rem;
+  padding: .3rem .5rem;
+}
+
+[popover] {
+  padding: 1rem 2rem;
+  inset: unset;
+  bottom: calc(anchor(top) - 2rem);
+  left: anchor(right);
+  margin: 0 1rem; 
+}
+
 div#screen-management {
   display: flex;
   gap: 1rem;
