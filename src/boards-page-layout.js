@@ -48,7 +48,7 @@ export default function renderBoardScreen(LogicController) {
     renderBoardScreen(LogicController);
   })
   addAnimationTracking(trailingTile);
-  mainSection.style.setProperty('--trailing-tile-bg', `url(/images/ground-tiles/tile${trailingTileIndex}.png)`);
+  mainSection.style.setProperty('--trailing-tile-bg', `url(./images/ground-tiles/tile${trailingTileIndex}.png)`);
   tilesContainer.appendChild(trailingTile);
   mainSection.appendChild(tilesContainer);
   

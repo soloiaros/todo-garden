@@ -76,7 +76,7 @@ main#boards {
 .board-tile.trailing-tile:hover::after {
   content: '';
   position: absolute;
-  background: url('/images/icons/plus-sign.svg');
+  background: url('./images/icons/plus-sign.svg');
   background-repeat: no-repeat;
   background-size: contain;
   top: 3%;
