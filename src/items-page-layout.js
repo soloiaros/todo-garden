@@ -21,10 +21,10 @@ const sortItems = (items, sortingOrderParam = null) => {
       items.sort((item1, item2) => compareAsc(item1.getDateChanged(), item2.getDateChanged()));
       return items;
     case 'by-name-incr':
-      items.sort((item1, item2) => item1.getTitle().localeCompare(item2.getTitle()));
+      items.sort((item1, item2) => item1.getTitle() > item2.getTitle());
       return items;
     case 'by-name-dcr':
-      items.sort((item1, item2) => item2.getTitle().localeCompare(item1.getTitle()));
+      items.sort((item1, item2) => item2.getTitle() > item1.getTitle());
       return items;
   }
   return items;
@@ -109,6 +109,12 @@ export default function renderBoardScreen(board, sortPreference = null) {
         itemDivInfoContainer.appendChild(itemInfoField);
       }
     }
+    // animate on-load
+    setTimeout(() => {
+      if (!itemDiv.classList.contains('item-hovered')) {
+        itemDiv.classList.add('item-hovered');
+      }
+    }, Math.random() * 300);
 
     const decorativeDiv = document.createElement('div');
     decorativeDiv.classList.add('decorative-div');
