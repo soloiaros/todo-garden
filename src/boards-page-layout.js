@@ -7,7 +7,7 @@ import './static/styles/boards-screen.css';
 
 export default function renderBoardScreen(LogicController) {
 
-  createSidebarLayout(LogicController);
+  createSidebarLayout(LogicController, renderBoardScreen);
   
   const mainSection = document.querySelector('main .content');
   mainSection.id = 'boards';

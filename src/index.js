@@ -114,7 +114,6 @@ const LogicController = (() => {
       }
       const boardSize = retrievedBoard.getBoardSize();
       const currentBoardTexture = retrievedBoard.getBoardTexture();
-      console.log(boardSize)
       if (!classifiedBoardTextures[boardSize].includes(currentBoardTexture)) {
         const newBoardTexture = classifiedBoardTextures[boardSize][Math.floor(Math.random() * classifiedBoardTextures[boardSize].length)];
         retrievedBoard.setBoardTexture(newBoardTexture);

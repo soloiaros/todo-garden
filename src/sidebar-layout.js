@@ -1,9 +1,34 @@
 import createItemsPageLayout from './items-page-layout.js';
+import { boardPopover } from './popovers.js';
 import { compareDesc } from "date-fns";
 
-export default function(LogicController) {
+export default function(LogicController, renderBoardScreenFunc) {
 
-  const sidebar = document.querySelector('.sidebar');
+  const sidebar = document.querySelector('.sidebar-content');
+
+  const mainSection = document.querySelector('main .content');
+  const newBoardBtn = document.querySelector('.sidebar button');
+  newBoardBtn.addEventListener('click', () => {
+    const newBoardPopover = boardPopover(LogicController.user, newBoardBtn);
+    mainSection.appendChild(newBoardPopover);
+    newBoardPopover.togglePopover();
+  })
+  newBoardBtn.addEventListener('newboardcreated', () => {
+    renderBoardScreenFunc(LogicController);
+  })
+
+  const existingBoardsList = sidebar.querySelector('.boards-list');
+  if (existingBoardsList) {
+    existingBoardsList.remove();
+  }
+
+  const sidebarLogo = document.querySelector('.sidebar .logo');
+  if (!sidebarLogo.hasAttribute('data-listener-added')) {
+    sidebarLogo.addEventListener('click', () => {
+      renderBoardScreenFunc(LogicController);
+    });
+    sidebarLogo.setAttribute('data-listener-added', 'true');
+  }
 
   const boardsListSection = document.createElement('ul');
   boardsListSection.classList.add('boards-list');
@@ -25,5 +50,5 @@ export default function(LogicController) {
 
     boardsListSection.appendChild(boardLink);
   }
-  sidebar.appendChild(boardsListSection);
+  sidebar.appendChild(boardsListSection); 
 }

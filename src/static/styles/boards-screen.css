@@ -1,6 +1,5 @@
 .content#boards {
   --trailing-tile-bg: '';
-  --main-bg: rgba(205, 159, 86, 0.692);
 
   display: flex;
   justify-content: center;
@@ -35,7 +34,7 @@
   left: 50%;
   transform: translate(-50%);
   width: calc(100% - 2rem);
-  padding: clamp(0.5rem, 1rem - 10%, 1rem);
+  padding: clamp(0.5rem, 1rem - 2%, 1rem) 0;
   text-wrap-mode: nowrap;
   text-transform: capitalize;
   font-size: calc(1rem + .7vw);
