@@ -81,7 +81,7 @@ export default function (board, item, itemDiv) {
         entryContainer.id = `entry-container-${i}`;
         const popoverEditEntry = listEntryPopover(item, itemDiv, entryObjects[i]);
         entryContainer.appendChild(popoverEditEntry);
-        popoverEditEntry.setAttribute('anchor', `entry-container-${i}`); 
+        popoverEditEntry.setAttribute('anchor', `entry-container-${i}`);
         entryContainer.classList.add('entry-container');
         const entryLabel = document.createElement('label');
         entryLabel.for = `entry-${i}`;
