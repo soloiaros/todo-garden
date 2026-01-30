@@ -1,0 +1,29 @@
+import createItemsPageLayout from './items-page-layout.js';
+import { compareDesc } from "date-fns";
+
+export default function(LogicController) {
+
+  const sidebar = document.querySelector('.sidebar');
+
+  const boardsListSection = document.createElement('ul');
+  boardsListSection.classList.add('boards-list');
+
+  const allBoards = LogicController.retrieveBoards();
+  allBoards.sort((board1, board2) => {
+    return compareDesc(board1.getDateCreated(), board2.getDateCreated())
+  });
+
+  for (let board of allBoards) {
+    const boardLink = document.createElement('li');
+    boardLink.addEventListener('click', () => {
+      createItemsPageLayout(board);
+    });
+    boardLink.textContent = board.getName();
+    const boardLastEdited = document.createElement('span');
+    boardLastEdited.textContent = board.getDateCreatedReadable();
+    boardLink.appendChild(boardLastEdited);
+
+    boardsListSection.appendChild(boardLink);
+  }
+  sidebar.appendChild(boardsListSection);
+}

@@ -1,4 +1,5 @@
 import { SMALLBOARDITEMNUMBER, MEDIUMBOARDITENUMBER } from "./shared-values";
+import { format, getDate } from "date-fns";
 
 export default function Board(boardName, boardDescription, sortPreference, boardTexture, boardId = null, dateCreated = null) {
 
@@ -31,6 +32,16 @@ export default function Board(boardName, boardDescription, sortPreference, board
   }
 
   const getDateCreated = () => !!(dateCreated) ? dateCreated : new Date();
+
+  const getDateCreatedReadable = () => {
+      let formattedDate = ''
+      try {
+        formattedDate = format(getDateCreated(), "MMM do");
+      } catch {
+        formattedDate = 'could not fetch date';
+      }
+      return formattedDate
+    }
 
   const getBoardId = () => boardId;
 
@@ -95,6 +106,7 @@ export default function Board(boardName, boardDescription, sortPreference, board
     getSortPreference,
     getBoardSize,
     getBoardTexture,
+    getDateCreatedReadable,
     setBoardTexture,
     setSortPreference,
     setName,

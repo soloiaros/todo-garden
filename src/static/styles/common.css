@@ -43,6 +43,11 @@ select {
   padding: .3rem .5rem;
 }
 
+main {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 5fr;
+}
+
 [popover] {
   padding: 1rem 2rem;
   inset: unset;

@@ -1,4 +1,5 @@
 import createModal from './item-interaction-modal.js';
+import createSidebarLayout from './sidebar-layout.js'
 import './static/styles/items-screen.css';
 import { compareDesc, compareAsc } from 'date-fns';
 import { createNewItemPopover } from './popovers.js';
@@ -39,7 +40,7 @@ const sortItems = (items, sortingOrderParam) => {
 }
 
 export default function renderBoardScreen(board) {
-  const mainSection = document.querySelector('main');
+  const mainSection = document.querySelector('main .content');
   mainSection.id = 'items';
   mainSection.innerText = '';
 
@@ -77,6 +78,12 @@ export default function renderBoardScreen(board) {
     renderBoardScreen(board);
   })
   mainSection.appendChild(screenManagement);
+  
+  const updatePosition = () => {
+    screenManagement.style.left = `calc(${mainSection.offsetLeft}px + 2rem)`;
+  };
+  updatePosition();
+  window.addEventListener('resize', updatePosition);
   
   
   const boardName = document.createElement('h1');

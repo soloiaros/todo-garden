@@ -1,4 +1,4 @@
-main#items {
+.content#items {
   display: flex;
   flex-direction: column;
   padding: 5rem 4rem;
@@ -7,7 +7,7 @@ main#items {
   position: relative;
 }
 
-main#items::before {
+.content#items::before {
   content: '';
   position: absolute;
   top: 0;
@@ -26,7 +26,6 @@ div.screen-management {
   background-color: rgb(55, 38, 0);
   color: white;
   position: fixed;
-  left: 4rem;
   top: 0;
   z-index: 1;
   border-radius: 0 0 16px 16px
