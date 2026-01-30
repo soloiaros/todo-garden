@@ -1,5 +1,3 @@
-<img width="1582" height="946" alt="Screenshot 2026-01-30 at 6 55 55 PM" src="https://github.com/user-attachments/assets/1b5403a1-3912-493c-895b-9ee7a4752523" /><div align="center">
-
 # 🏡 Cozy Village Todo
 
 **A Stardew Valley-inspired productivity application where your tasks build a village.**
