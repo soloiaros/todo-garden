@@ -1,23 +1,17 @@
-/**
- * THIS FILE WAS AUTO-GENERATED.
- * PLEASE DO NOT EDIT IT MANUALLY.
- * ===============================
- * IF YOU COPY THIS INTO AN ESLINT CONFIG, REMOVE THIS COMMENT BLOCK.
- */
+import path from "node:path";
 
-import path from 'node:path';
+import { includeIgnoreFile } from "@eslint/compat";
+import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
+import { configs, plugins } from "eslint-config-airbnb-extended";
+import eslintConfigPrettier from "eslint-config-prettier";
 
-import { includeIgnoreFile } from '@eslint/compat';
-import js from '@eslint/js';
-import { defineConfig } from 'eslint/config';
-import { configs, plugins } from 'eslint-config-airbnb-extended';
-
-const gitignorePath = path.resolve('.', '.gitignore');
+const gitignorePath = path.resolve(".", ".gitignore");
 
 const jsConfig = defineConfig([
   // ESLint recommended config
   {
-    name: 'js/config',
+    name: "js/config",
     ...js.configs.recommended,
   },
   // Stylistic plugin
@@ -42,4 +36,5 @@ export default defineConfig([
   ...jsConfig,
   // Node config
   ...nodeConfig,
+  eslintConfigPrettier,
 ]);

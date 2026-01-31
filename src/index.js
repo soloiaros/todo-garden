@@ -1,102 +1,108 @@
-import User from './user.js';
-import { listEntry, NoteItem, TODOItem, ListItem, TODOListItem } from './items.js';
-import { classifiedBoardTextures } from './shared-values.js';
-import './static/styles/common.css';
+import User from "./user.js";
+import {
+  listEntry,
+  NoteItem,
+  TODOItem,
+  ListItem,
+  TODOListItem,
+} from "./items.js";
+import { classifiedBoardTextures } from "./shared-values.js";
+import "./static/styles/common.css";
 
-import createBoardsPageLayout from './boards-page-layout.js';
+import createBoardsPageLayout from "./boards-page-layout.js";
 
 const LogicController = (() => {
-
   const user = User;
 
   const addBoard = (name, description) => {
     const newBoard = User.createBoard(name, description);
     newBoard.setLocalStorageBoardObject();
     return newBoard;
-  }
+  };
 
   const deleteBoard = (board) => {
     User.deleteBoard(board);
     localStorage.removeItem(board.getBoardId);
-  }
+  };
 
   const addBoardItem = (board, item) => {
     board.addItem(item);
     board.setLocalStorageBoardObject();
-  }
+  };
 
   const removeBoardItem = (board, item) => {
     board.deleteItem(item);
     board.setLocalStorageBoardObject();
-  }
+  };
 
   const retrieveNoteItem = (storageObject) => {
     return NoteItem(
-      storageObject['title'],
-      storageObject['description'],
-      storageObject['dateCreated'],
-      storageObject['dateChanged'],);
-  }
+      storageObject["title"],
+      storageObject["description"],
+      storageObject["dateCreated"],
+      storageObject["dateChanged"],
+    );
+  };
 
   const retrieveTODOItem = (storageObject) => {
     return TODOItem(
-          storageObject['title'],
-          storageObject['description'],
-          Date.parse(storageObject['dueDate']),
-          storageObject['priority'],
-          storageObject['dateCreated'],
-          storageObject['dateChanged'],
-        );
-  }
+      storageObject["title"],
+      storageObject["description"],
+      Date.parse(storageObject["dueDate"]),
+      storageObject["priority"],
+      storageObject["dateCreated"],
+      storageObject["dateChanged"],
+    );
+  };
 
   const retrieveListItem = (storageObject) => {
     const entries = [];
     storageObject.entries.forEach((entry) => {
       entries.unshift(listEntry(entry.contents, entry.checked));
-    })
+    });
     return ListItem(
-      storageObject['title'],
-      storageObject['description'],
+      storageObject["title"],
+      storageObject["description"],
       entries,
-      storageObject['dateCreated'],
-      storageObject['dateChanged'],
-    )
-  }
+      storageObject["dateCreated"],
+      storageObject["dateChanged"],
+    );
+  };
 
   const retrieveTODOListItem = (storageObject) => {
     const entries = [];
     storageObject.entries.forEach((entry) => {
       entries.unshift(listEntry(entry.contents, entry.checked));
-    })
+    });
     return TODOListItem(
-      storageObject['title'],
-      storageObject['description'],
-      new Date(storageObject['dueDate']),
-      storageObject['priority'],
+      storageObject["title"],
+      storageObject["description"],
+      new Date(storageObject["dueDate"]),
+      storageObject["priority"],
       entries,
-      storageObject['dateCreated'],
-      storageObject['dateChanged'],
-    )
-  }
+      storageObject["dateCreated"],
+      storageObject["dateChanged"],
+    );
+  };
 
   const retrieveItem = (storageObject) => {
-    let retrievedItem = '';
-    switch (storageObject['type']) {
-      case 'note':
+    let retrievedItem = "";
+    switch (storageObject["type"]) {
+      case "note":
         retrievedItem = retrieveNoteItem(storageObject);
         break;
-      case 'todo':
+      case "todo":
         retrievedItem = retrieveTODOItem(storageObject);
         break;
-      case 'list':
+      case "list":
         retrievedItem = retrieveListItem(storageObject);
         break;
-      case 'todolist':
+      case "todolist":
         retrievedItem = retrieveTODOListItem(storageObject);
         break;
     }
     return retrievedItem;
-  }
+  };
 
   const retrieveBoards = () => {
     user.resetBoards();
@@ -104,23 +110,35 @@ const LogicController = (() => {
       let boardId = localStorage.key(i);
       let boardObj = JSON.parse(localStorage.getItem(boardId));
       const boardsItems = [];
-      for (let item of boardObj['items']) {
+      for (let item of boardObj["items"]) {
         const retrievedItem = retrieveItem(item);
         boardsItems.unshift(retrievedItem);
       }
-      const retrievedBoard = User.createBoard(boardObj.name, boardObj.description, boardObj.boardTexture, boardId, new Date(boardObj.dateCreated), boardObj.sortPreference);
+      const retrievedBoard = User.createBoard(
+        boardObj.name,
+        boardObj.description,
+        boardObj.boardTexture,
+        boardId,
+        new Date(boardObj.dateCreated),
+        boardObj.sortPreference,
+      );
       for (let item of boardsItems) {
         retrievedBoard.addItem(item);
       }
       const boardSize = retrievedBoard.getBoardSize();
       const currentBoardTexture = retrievedBoard.getBoardTexture();
       if (!classifiedBoardTextures[boardSize].includes(currentBoardTexture)) {
-        const newBoardTexture = classifiedBoardTextures[boardSize][Math.floor(Math.random() * classifiedBoardTextures[boardSize].length)];
+        const newBoardTexture =
+          classifiedBoardTextures[boardSize][
+            Math.floor(
+              Math.random() * classifiedBoardTextures[boardSize].length,
+            )
+          ];
         retrievedBoard.setBoardTexture(newBoardTexture);
       }
     }
     return User.boards;
-  }
+  };
 
   return {
     user,
@@ -129,15 +147,11 @@ const LogicController = (() => {
     addBoardItem,
     removeBoardItem,
     retrieveBoards,
-  }
-
+  };
 })();
 
-
 const ScreenController = (() => {
-
   createBoardsPageLayout(LogicController);
-
 })();
 
 // const newBoard = LogicController.addBoard('board1', 'I contain a list');

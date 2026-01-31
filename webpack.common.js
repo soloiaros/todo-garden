@@ -1,38 +1,36 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require("node:path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
     clean: true,
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/template.html' }),
+    new HtmlWebpackPlugin({ template: "./src/template.html" }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public', to: '' },
-      ]
-    })
+      patterns: [{ from: "public", to: "" }],
+    }),
   ],
   module: {
     rules: [
       {
         test: /\.html$/i,
-        loader: 'html-loader',
+        loader: "html-loader",
       },
       {
         test: /\.css$/i,
         use: [
-          'style-loader',
+          "style-loader",
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               url: {
                 filter: (url) => {
-                  if (url.startsWith('/images/')) {
+                  if (url.startsWith("/images/")) {
                     return false;
                   }
                   return true;
@@ -44,12 +42,12 @@ module.exports = {
       },
       {
         test: /\.(png|jpeg|jpg|svg|ico)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
       {
         test: /\.(woff|woff2|ttf|otf|eot)$/i,
         type: "asset/resource",
       },
-    ]
-  }
-}
+    ],
+  },
+};

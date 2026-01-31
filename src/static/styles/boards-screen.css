@@ -1,11 +1,11 @@
 .content#boards {
-  --trailing-tile-bg: '';
+  --trailing-tile-bg: "";
 
   display: flex;
   justify-content: center;
   padding: 5rem 4rem;
   background-color: var(--main-bg);
-  box-shadow: inset 0 0 150px rgba(0,0,0,0.5);
+  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.5);
 }
 
 .tiles-container {
@@ -37,7 +37,7 @@
   padding: clamp(0.5rem, 1rem - 2%, 1rem) 0;
   text-wrap-mode: nowrap;
   text-transform: capitalize;
-  font-size: calc(1rem + .7vw);
+  font-size: calc(1rem + 0.7vw);
   overflow: hidden;
   background: var(--board-name-bg);
   display: grid;
@@ -45,7 +45,7 @@
 }
 
 .board-tile::before {
-  content: '';
+  content: "";
   top: 0;
   left: 0;
   background-size: contain;
@@ -73,9 +73,9 @@
 }
 
 .board-tile.trailing-tile:hover::after {
-  content: '';
+  content: "";
   position: absolute;
-  background: url('./images/icons/plus-sign.svg');
+  background: url("./images/icons/plus-sign.svg");
   background-repeat: no-repeat;
   background-size: contain;
   top: 3%;
