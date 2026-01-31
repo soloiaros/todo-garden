@@ -1,5 +1,5 @@
 import createItemsPageLayout from './items-page-layout.js';
-import createSidebarLayout from './sidebar-layout.js'
+import createSidebarLayout from './sidebar-layout.js';
 import { boardPopover } from './popovers.js';
 import { compareDesc } from 'date-fns';
 import { TILEIMAGEROOT } from './shared-values.js';

@@ -12,7 +12,7 @@ class User {
     const newBoard = Board(boardName, boardDescription, sortPreference, textureIndex, boardId, dateCreated = dateCreated);
     newBoard.updateBoardSize();
     this.boards.unshift(newBoard);
-    return newBoard
+    return newBoard;
   }
 
   deleteBoard(board) {
